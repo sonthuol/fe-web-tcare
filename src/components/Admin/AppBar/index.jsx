@@ -5,16 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { useEffect, useState } from "react";
-import { Link, Route, Switch, withRouter } from "react-router-dom";
-import Login from "../../../features/Auth/components/Login";
-import Register from "../../../features/Auth/components/Register";
+import { Link, withRouter } from "react-router-dom";
 import authService from "../../../services/Auth/auth.service";
-import Admin from "../Admin";
-import Doctor from "../Doctor";
-import Home from "../Home";
-import Profile from "../Profile";
-import Receptionist from "../Receptionist";
-import Root from "../Root";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -135,16 +127,6 @@ function AppBarAdmin(props) {
           )}
         </Toolbar>
       </AppBar>
-      {/* <Switch>
-        <Route exact path={["/", "/home"]} component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/profile" component={Profile} />
-        <Route path="/root" component={Root} />
-        <Route path="/admin" component={Admin} />
-        <Route path="/doctor" component={Doctor} />
-        <Route path="/receptionist" component={Receptionist} />
-      </Switch> */}
     </div>
   );
 }

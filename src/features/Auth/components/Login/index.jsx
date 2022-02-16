@@ -1,16 +1,12 @@
 import {
   Avatar,
   Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
   makeStyles,
   Paper,
   TextField,
   Typography,
 } from "@material-ui/core";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React, { useState } from "react";
 import authService from "../../../../services/Auth/auth.service";
@@ -31,9 +27,8 @@ const useStyles = makeStyles((theme) => ({
   text_field: {
     marginTop: 15,
   },
-  form_controller: {
-    float: "left",
-    fontSize: "10px",
+  button: {
+    margin: "10px 0",
   },
 }));
 
@@ -93,19 +88,13 @@ function Login(props) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <FormControlLabel
-              className={classes.form_controller}
-              control={
-                <Checkbox
-                  icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                  checkedIcon={<CheckBoxIcon fontSize="small" />}
-                  color="primary"
-                  name="remember"
-                />
-              }
-              label="Ghi nhớ"
-            />
-            <Button type="submit" color="primary" variant="contained" fullWidth>
+            <Button
+              type="submit"
+              className={classes.button}
+              color="primary"
+              variant="contained"
+              fullWidth
+            >
               Đăng nhập
             </Button>
           </form>

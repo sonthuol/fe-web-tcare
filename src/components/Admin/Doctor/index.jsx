@@ -1,3 +1,4 @@
+import { Paper } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import userService from "../../../services/Auth/user.service";
 const Home = () => {
@@ -16,12 +17,6 @@ const Home = () => {
       }
     );
   }, []);
-  return (
-    <div className="container">
-      <header className="jumbotron">
-        <h3>{content}</h3>
-      </header>
-    </div>
-  );
+  return <Paper>{content}</Paper>;
 };
 export default Home;
