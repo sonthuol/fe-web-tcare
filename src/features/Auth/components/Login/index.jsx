@@ -41,7 +41,6 @@ function Login(props) {
     e.preventDefault();
     authService.login(username, password).then(
       () => {
-        props.history.push("/profile");
         window.location.reload();
       },
       (error) => {
