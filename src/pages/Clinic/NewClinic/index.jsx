@@ -6,12 +6,18 @@ import "./style.css";
 
 export default function NewClinic() {
   const initialValue = {
+    fullname: "",
+    username: "",
+    password: "",
+    email: "",
+    roles: ["admin"],
     name: "",
     phoneNumber: "",
     address: "",
     image: "",
     description: "",
-    isDelete: 0,
+    status: 1,
+    isDelete: "",
     addBy: "",
     updateBy: "",
     deleteBy: "",
@@ -21,15 +27,24 @@ export default function NewClinic() {
   useEffect(() => {
     const user = authService.getCurrentUser();
     if (user) {
-      //   console.log(user);
       setData({
         ...data,
         addBy: user.id,
       });
     }
   }, []);
+
   const handleCreateNewClinic = (e) => {
     e.preventDefault();
+    authService.register(
+      data.username,
+      data.email,
+      data.password,
+      data.roles,
+      data.fullname,
+      data.address,
+      data.phoneNumber
+    );
     clinicService.createNewClinic(data).then(
       () => {
         setRedirect(true);
@@ -50,6 +65,46 @@ export default function NewClinic() {
       {redirect && <Redirect to="/clinics" />}
       <h1 className="newUserTitle">Tạo mới phòng khám</h1>
       <form className="newUserForm" onSubmit={handleCreateNewClinic}>
+        <div className="newUserItem">
+          <label>Họ tên chủ phòng khám</label>
+          <input
+            type="text"
+            placeholder="Nguyễn Văn A"
+            name="fullname"
+            value={data.fullname}
+            onChange={(e) => setData({ ...data, fullname: e.target.value })}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>Tên tài khoản</label>
+          <input
+            type="text"
+            placeholder="Nhập tên tài khoản ..."
+            name="username"
+            value={data.username}
+            onChange={(e) => setData({ ...data, username: e.target.value })}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>Mật khẩu</label>
+          <input
+            type="text"
+            placeholder="Mật khẩu"
+            name="password"
+            value={data.password}
+            onChange={(e) => setData({ ...data, password: e.target.value })}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>Email</label>
+          <input
+            type="text"
+            placeholder="Địa chỉ email"
+            name="email"
+            value={data.email}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
+          />
+        </div>
         <div className="newUserItem">
           <label>Tên phòng khám</label>
           <input
@@ -86,11 +141,11 @@ export default function NewClinic() {
             className="newUserSelect"
             name="isDelete"
             id="active"
-            value={data.isDelete}
-            onChange={(e) => setData({ ...data, isDelete: e.target.value })}
+            value={data.status}
+            onChange={(e) => setData({ ...data, status: e.target.value })}
           >
-            <option value="0">Hiển thị</option>
-            <option value="1">Ẩn</option>
+            <option value="1">Hiển thị</option>
+            <option value="0">Ẩn</option>
           </select>
         </div>
         <div className="newUserItem">

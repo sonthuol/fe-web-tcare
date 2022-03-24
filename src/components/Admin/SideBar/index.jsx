@@ -31,9 +31,12 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quản lý phòng khám</h3>
           <ul className="sidebarList">
-            <li className="sidebarItem">
-              <PermIdentityIcon className="sidebarIcon" /> Tài khoản
-            </li>
+            <NavLink to="/accounts" className="sidebarLink">
+              <li className="sidebarItem">
+                <PermIdentityIcon className="sidebarIcon" />
+              </li>
+              Tài khoản
+            </NavLink>
             <NavLink to="/clinics" className="sidebarLink">
               <li className="sidebarItem">
                 <LocalHospitalIcon className="sidebarIcon" />

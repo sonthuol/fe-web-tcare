@@ -1,9 +1,9 @@
 import axios from "axios";
 import authHeader from "../Auth/auth-header";
-const API_URL = "http://localhost:8080/api/clinics";
+const API_URL = "http://localhost:8080/api/user";
 
-const getAllClinics = async () => {
-  return await axios.get(API_URL, { headers: authHeader() });
+const getAllUser = async () => {
+  return await axios.get(API_URL + "/get-all-user", { headers: authHeader() });
 };
 
 const clinicDetails = async (id) => {
@@ -36,10 +36,10 @@ const deleteClinic = async (id, user) => {
   );
 };
 export default {
-  getAllClinics,
-  clinicDetails,
-  createNewClinic,
-  deleteClinic,
-  updateClinic,
-  changeStatus,
+  getAllUser,
+  // clinicDetails,
+  // createNewClinic,
+  // deleteClinic,
+  // updateClinic,
+  // changeStatus,
 };

@@ -9,7 +9,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import authService from "../../../services/Auth/auth.service";
-import clinicService from "../../../services/Clinic/clinic.service";
+import userService from "../../../services/User/user.service";
 import "./style.css";
 
 const style = {
@@ -43,13 +43,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ClinicList() {
+export default function AccountList() {
   const classes = useStyles();
   const columns = [
     { field: "id", headerName: "Mã", width: 100 },
-    { field: "name", headerName: "Tên phòng khám", width: 240 },
+    { field: "fullname", headerName: "Họ và tên", width: 240 },
     { field: "phoneNumber", headerName: "Số điện thoại", width: 200 },
-    { field: "address", headerName: "Địa chỉ", width: 200 },
+    { field: "email", headerName: "Email", width: 200 },
     {
       field: "status",
       headerName: "Trạng thái",
@@ -97,7 +97,7 @@ export default function ClinicList() {
     },
   ];
 
-  const [clinicList, setClinicList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const [open, setOpen] = useState(false);
   const [clinic, setClinic] = useState();
   const handleOpen = () => setOpen(true);
@@ -105,11 +105,12 @@ export default function ClinicList() {
   const [selectionModel, setSelectionModel] = useState([]);
 
   useEffect(() => {
-    async function feachClinic() {
-      let clinic = await clinicService.getAllClinics();
-      setClinicList(clinic.data.data);
+    async function feachUser() {
+      let user = await userService.getAllUser();
+      setUserList(user.data.data);
+      console.log(user);
     }
-    feachClinic();
+    feachUser();
   }, []);
 
   const handleOpenModal = (id) => {
@@ -118,26 +119,23 @@ export default function ClinicList() {
   };
 
   const handleDelete = async () => {
-    setClinicList(clinicList.filter((item) => item.id !== clinic));
+    setUserList(userList.filter((item) => item.id !== user));
     const user = await authService.getCurrentUser();
-    await clinicService.deleteClinic(clinic, user.id);
+    await userService.deleteuser(user, user.id);
     handleClose();
   };
 
   const handleChangeStauts = async (id) => {
-    let statusCurrent = clinicList.find((item) => item.id === id);
+    let statusCurrent = userList.find((item) => item.id === id);
     statusCurrent.status = !statusCurrent.status;
     const user = await authService.getCurrentUser();
-    await clinicService.changeStatus(id, statusCurrent.status, user.id);
+    await userService.changeStatus(id, statusCurrent.status, user.id);
   };
 
   return (
     <div className="clinicList">
       <div className="clinicListTitleContainer">
-        <h1 className="clinicListTitle">Danh sách phòng khám</h1>
-        <Link to="/clinics/create">
-          <button className="clinicListAddButton">Tạo mới</button>
-        </Link>
+        <h1 className="clinicListTitle">Danh sách tài khoản</h1>
       </div>
       <div className="clinicListSelectedDeleteAndSearch">
         <div className="clinicListSelectedDelete">
@@ -160,7 +158,7 @@ export default function ClinicList() {
       <div style={{ height: 500, width: "100%" }}>
         <DataGrid
           className="clinicListContainer"
-          rows={clinicList}
+          rows={userList}
           columns={columns}
           pageSize={7}
           checkboxSelection
