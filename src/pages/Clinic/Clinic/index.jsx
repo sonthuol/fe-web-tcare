@@ -117,7 +117,7 @@ export default function Account() {
               <div className="userUpdateItem">
                 <label>Số điện thoại</label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Số điện thoại"
                   value={clinic.phoneNumber || ""}
                   className="userUpdateInput"
@@ -201,7 +201,7 @@ export default function Account() {
                 <input type="file" id="file" style={{ display: "none" }} />
               </div>
               <button type="submit" className="userUpdateButton">
-                Update
+                Cập nhật
               </button>
             </div>
           </form>

@@ -47,9 +47,23 @@ export default function AccountList() {
   const classes = useStyles();
   const columns = [
     { field: "id", headerName: "Mã", width: 100 },
-    { field: "fullname", headerName: "Họ và tên", width: 240 },
-    { field: "phoneNumber", headerName: "Số điện thoại", width: 200 },
+    { field: "fullname", headerName: "Họ và tên", width: 200 },
+    { field: "phoneNumber", headerName: "Số điện thoại", width: 120 },
     { field: "email", headerName: "Email", width: 200 },
+    {
+      field: "roles",
+      headerName: "Vai trò",
+      width: 120,
+      renderCell: (params) => {
+        if (params.row.roles[0].name === "admin") {
+          return <>Chủ phòng khám</>;
+        } else if (params.row.roles[0].name === "root") {
+          return <>Quản trị viên</>;
+        } else if (params.row.roles[0].name === "doctor") {
+          return <>Bác sĩ</>;
+        }
+      },
+    },
     {
       field: "status",
       headerName: "Trạng thái",
@@ -84,7 +98,7 @@ export default function AccountList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/clinics/" + params.row.id}>
+            <Link to={"/accounts/" + params.row.id}>
               <button className="clinicListEdit">Edit</button>
             </Link>
             <DeleteOutlineIcon
@@ -99,7 +113,7 @@ export default function AccountList() {
 
   const [userList, setUserList] = useState([]);
   const [open, setOpen] = useState(false);
-  const [clinic, setClinic] = useState();
+  const [user, setUser] = useState();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [selectionModel, setSelectionModel] = useState([]);
@@ -115,13 +129,13 @@ export default function AccountList() {
 
   const handleOpenModal = (id) => {
     handleOpen();
-    setClinic(id);
+    setUser(id);
   };
 
   const handleDelete = async () => {
     setUserList(userList.filter((item) => item.id !== user));
-    const user = await authService.getCurrentUser();
-    await userService.deleteuser(user, user.id);
+    const accountToken = await authService.getCurrentUser();
+    await userService.deleteUser(user, accountToken.id);
     handleClose();
   };
 

@@ -6,31 +6,32 @@ import {
   PhoneAndroid,
   Publish,
 } from "@material-ui/icons";
+import Avatar from "@material-ui/core/Avatar";
 import { Link, Redirect } from "react-router-dom";
 import { React, useState, useEffect } from "react";
-import clinicService from "../../../services/Clinic/clinic.service";
+import userService from "../../../services/User/user.service";
 import { useParams } from "react-router-dom";
 import "./style.css";
 import authService from "../../../services/Auth/auth.service";
-
-export default function Clinic() {
-  const [clinic, setClinic] = useState([]);
+export default function Account() {
+  const [user, setUser] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
   let { id } = useParams();
   useEffect(() => {
-    async function feachClinic() {
-      let clinic = await clinicService.clinicDetails(id);
-      setClinic(clinic.data.data);
+    async function feachUser() {
+      let user = await userService.userDetails(id);
+      setUser(user.data.data);
     }
-    feachClinic();
+    feachUser();
   }, []);
 
-  const handleUpdateClinic = async (e) => {
+  const handleUpdateUser = async (e) => {
     e.preventDefault();
-    const user = await authService.getCurrentUser();
-    clinic.updateBy = user.id;
-    await clinicService.updateClinic(id, clinic).then(
+    const accountToken = await authService.getCurrentUser();
+    user.updateBy = accountToken.id;
+    // console.log(user);
+    await userService.updateUser(id, user).then(
       () => {
         setRedirect(true);
       },
@@ -48,10 +49,10 @@ export default function Clinic() {
 
   return (
     <div className="user">
-      {redirect && <Redirect to="/clinics" />}
+      {redirect && <Redirect to="/accounts" />}
 
       <div className="userTitleContainer">
-        <h1 className="userTitle">Cập nhật phòng khám</h1>
+        <h1 className="userTitle">Cập nhật tài khoản</h1>
         <Link to="/clinics/create">
           <button className="userAddButton">Tạo mới</button>
         </Link>
@@ -59,21 +60,16 @@ export default function Clinic() {
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="userShowImg"
-            />
+            <Avatar className="userShowImg"></Avatar>
             <div className="userShowTopTitle">
-              <span className="userShowUsername">{clinic.name}</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+              <span className="userShowUsername">{user.fullname}</span>
             </div>
           </div>
           <div className="userShowBottom">
             <span className="userShowTitle">Chi tiết phòng khám</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">{clinic.name}</span>
+              <span className="userShowInfoTitle">{user.fullname}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
@@ -82,34 +78,34 @@ export default function Clinic() {
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">{clinic.phoneNumber}</span>
+              <span className="userShowInfoTitle">{user.phoneNumber}</span>
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">{clinic.address}</span>
+              <span className="userShowInfoTitle">{user.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | USA</span>
+              <span className="userShowInfoTitle">{user.address}</span>
             </div>
           </div>
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Chỉnh sửa</span>
-          <form className="userUpdateForm" onSubmit={handleUpdateClinic}>
+          <form className="userUpdateForm" onSubmit={handleUpdateUser}>
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
                 <label>Tên phòng khám</label>
                 <input
                   type="text"
                   placeholder="Tên phòng khám"
-                  value={clinic.name || ""}
-                  name="name"
+                  value={user.fullname || ""}
+                  name="fullname"
                   className="userUpdateInput"
                   onChange={(e) =>
-                    setClinic({
-                      ...clinic,
-                      name: e.target.value,
+                    setUser({
+                      ...user,
+                      fullname: e.target.value,
                     })
                   }
                 />
@@ -117,15 +113,31 @@ export default function Clinic() {
               <div className="userUpdateItem">
                 <label>Số điện thoại</label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Số điện thoại"
-                  value={clinic.phoneNumber || ""}
+                  value={user.phoneNumber || ""}
                   className="userUpdateInput"
                   name="phoneNumber"
                   onChange={(e) =>
-                    setClinic({
-                      ...clinic,
+                    setUser({
+                      ...user,
                       phoneNumber: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="userUpdateItem">
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={user.email || ""}
+                  className="userUpdateInput"
+                  name="email"
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      email: e.target.value,
                     })
                   }
                 />
@@ -135,54 +147,13 @@ export default function Clinic() {
                 <input
                   type="text"
                   placeholder="Địa chỉ"
-                  value={clinic.address || ""}
+                  value={user.address || ""}
                   name="address"
                   className="userUpdateInput"
                   onChange={(e) =>
-                    setClinic({
-                      ...clinic,
+                    setUser({
+                      ...user,
                       address: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Trạng thái</label>
-                <select
-                  className="userUpdateInput"
-                  defaultValue={clinic.stauts}
-                  onChange={(e) =>
-                    setClinic({
-                      ...clinic,
-                      status: e.target.value,
-                    })
-                  }
-                >
-                  {clinic.status === true ? (
-                    <>
-                      <option value="1">Hiển thị</option>
-                      <option value="0">Ẩn</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="0">Ẩn</option>
-                      <option value="1">Hiển thị</option>
-                    </>
-                  )}
-                </select>
-              </div>
-              <div className="userUpdateItem">
-                <label>Mô tả</label>
-                <input
-                  type="text"
-                  placeholder="Mô tả phòng khám"
-                  value={clinic.description || ""}
-                  className="userUpdateInput"
-                  name="description"
-                  onChange={(e) =>
-                    setClinic({
-                      ...clinic,
-                      description: e.target.value,
                     })
                   }
                 />
