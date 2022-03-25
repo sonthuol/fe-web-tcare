@@ -65,13 +65,13 @@ export default function AccountList() {
       },
     },
     {
-      field: "status",
+      field: "isActive",
       headerName: "Trạng thái",
       width: 120,
       renderCell: (params) => {
         return (
           <>
-            {params.row.status === true ? (
+            {params.row.isActive === true ? (
               <div
                 className="clinicListActive"
                 onClick={() => handleChangeStauts(params.row.id)}
@@ -113,9 +113,12 @@ export default function AccountList() {
 
   const [userList, setUserList] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openModelDelete, setOpenModelDelete] = useState(false);
   const [user, setUser] = useState();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpenModelDelete = () => setOpenModelDelete(true);
+  const handleCloseModelDelete = () => setOpenModelDelete(false);
   const [selectionModel, setSelectionModel] = useState([]);
 
   useEffect(() => {
@@ -133,17 +136,21 @@ export default function AccountList() {
   };
 
   const handleDelete = async () => {
-    setUserList(userList.filter((item) => item.id !== user));
     const accountToken = await authService.getCurrentUser();
-    await userService.deleteUser(user, accountToken.id);
+    if (accountToken.id === user) {
+      setOpenModelDelete(true);
+    } else {
+      setUserList(userList.filter((item) => item.id !== user));
+      await userService.deleteUser(user, accountToken.id);
+    }
     handleClose();
   };
 
   const handleChangeStauts = async (id) => {
     let statusCurrent = userList.find((item) => item.id === id);
-    statusCurrent.status = !statusCurrent.status;
+    statusCurrent.isActive = !statusCurrent.isActive;
     const user = await authService.getCurrentUser();
-    await userService.changeStatus(id, statusCurrent.status, user.id);
+    await userService.changeStatus(id, statusCurrent.isActive, user.id);
   };
 
   return (
@@ -210,6 +217,27 @@ export default function AccountList() {
               variant="outlined"
               size="small"
               onClick={() => setOpen(false)}
+            >
+              Huỷ
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+      <Modal
+        open={openModelDelete}
+        onClose={handleCloseModelDelete}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Bạn không thể xoá tài khoản cá nhân của mình
+          </Typography>
+          <div className="clinicListButtonConfirmDelete">
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setOpenModelDelete(false)}
             >
               Huỷ
             </Button>

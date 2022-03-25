@@ -40,6 +40,5 @@ export default {
   userDetails,
   updateUser,
   deleteUser,
-  // updateClinic,
-  // changeStatus,
+  changeStatus,
 };
