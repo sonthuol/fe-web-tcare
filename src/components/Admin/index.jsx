@@ -9,6 +9,7 @@ import AccountList from "../../pages/Account/AccountList";
 import Account from "../../pages/Account/Account";
 import ClinicList from "../../pages/Clinic/ClinicList";
 import Clinic from "../../pages/Clinic/Clinic";
+import ClinicRestore from "../../pages/Clinic/ClinicRestore";
 import NewClinic from "../../pages/Clinic/NewClinic";
 
 export default function Admin() {
@@ -22,6 +23,7 @@ export default function Admin() {
           <Route exact path="/accounts" component={AccountList} />
           <Route path="/accounts/:id" component={Account} />
           <Route exact path="/clinics" component={ClinicList} />
+          <Route exact path="/clinics/restore" component={ClinicRestore} />
           <Route exact path="/clinics/create" component={NewClinic} />
           <Route path="/clinics/:id" component={Clinic} />
         </Switch>

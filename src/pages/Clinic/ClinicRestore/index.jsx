@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import authService from "../../../services/Auth/auth.service";
 import clinicService from "../../../services/Clinic/clinic.service";
 import RestoreIcon from "@material-ui/icons/Restore";
-
 import "./style.css";
 
 const style = {
@@ -45,50 +44,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ClinicList() {
+export default function CliniRestore() {
   const classes = useStyles();
   const columns = [
     { field: "id", headerName: "Mã", width: 100 },
-    { field: "name", headerName: "Tên phòng khám", width: 240 },
+    { field: "name", headerName: "Tên phòng khám", width: 300 },
     { field: "phoneNumber", headerName: "Số điện thoại", width: 200 },
     { field: "address", headerName: "Địa chỉ", width: 200 },
     {
-      field: "status",
-      headerName: "Trạng thái",
-      width: 120,
-      renderCell: (params) => {
-        return (
-          <>
-            {params.row.status === true ? (
-              <div
-                className="clinicListActive"
-                onClick={() => handleChangeStauts(params.row.id)}
-              >
-                <Brightness1Icon className="clinicListActiveIcon active" /> Hiển
-                thị
-              </div>
-            ) : (
-              <div
-                className="clinicListActive"
-                onClick={() => handleChangeStauts(params.row.id)}
-              >
-                <Brightness1Icon className="clinicListActiveIcon unactive" /> Ẩn
-              </div>
-            )}
-          </>
-        );
-      },
-    },
-    {
       field: "action",
       headerName: "Hành động",
-      width: 150,
+      width: 200,
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/clinics/" + params.row.id}>
-              <button className="clinicListEdit">Edit</button>
-            </Link>
+            <RestoreIcon
+              className="clinicListRetoreIcon"
+              onClick={() => handleOpenRestoreModal(params.row.id)}
+            />
             <DeleteOutlineIcon
               className="clinicListDelete"
               onClick={() => handleOpenModal(params.row.id)}
@@ -101,21 +74,31 @@ export default function ClinicList() {
 
   const [clinicList, setClinicList] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openRestore, setOpenRestore] = useState(false);
   const [clinic, setClinic] = useState();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpenRestore = () => setOpenRestore(true);
+  const handleCloseRestore = () => setOpenRestore(false);
   const [selectionModel, setSelectionModel] = useState();
 
   useEffect(() => {
     async function feachClinic() {
-      let clinic = await clinicService.getAllClinics();
-      setClinicList(clinic.data.data);
+      let clinic = await clinicService.getAllClinicRestore();
+      if (clinic) {
+        setClinicList(clinic.data.data);
+      }
     }
     feachClinic();
   }, []);
 
   const handleOpenModal = (id) => {
     handleOpen();
+    setClinic(id);
+  };
+
+  const handleOpenRestoreModal = (id) => {
+    handleOpenRestore();
     setClinic(id);
   };
 
@@ -126,31 +109,26 @@ export default function ClinicList() {
     handleClose();
   };
 
-  const handleChangeStauts = async (id) => {
-    let statusCurrent = clinicList.find((item) => item.id === id);
-    statusCurrent.status = !statusCurrent.status;
-    const user = await authService.getCurrentUser();
-    await clinicService.changeStatus(id, statusCurrent.status, user.id);
+  const handleRestore = async () => {
+    setClinicList(clinicList.filter((item) => item.id !== clinic));
+    await clinicService.restore(clinic);
+    handleCloseRestore();
   };
 
   const handleSelectedDelete = () => {
     if (selectionModel) {
       console.log(selectionModel);
-      setClinicList(
-        clinicList.filter((item) => !selectionModel.includes(item.id))
-      );
+      selectionModel.forEach((element) => {
+        setClinicList(clinicList.filter((item) => item.id !== element));
+      });
       console.log(clinicList);
     }
   };
 
-  console.log(clinicList);
   return (
     <div className="clinicList">
       <div className="clinicListTitleContainer">
-        <h1 className="clinicListTitle">Danh sách phòng khám</h1>
-        <Link to="/clinics/create">
-          <button className="clinicListAddButton">Tạo mới</button>
-        </Link>
+        <h1 className="clinicListTitle">Khôi phục phòng khám</h1>
       </div>
       <div className="clinicListSelectedDeleteAndSearch">
         <div className="clinicListDeleteAndRestore">
@@ -164,11 +142,10 @@ export default function ClinicList() {
           <div className="clinicListSelectedRestore">
             <Link to="/clinics/restore" className="clinicListLinkRestore">
               <RestoreIcon className="clinicListRestoreIcon" />
-              <h5>Khôi phục</h5>
+              <h5>Hiển thị</h5>
             </Link>
           </div>
         </div>
-
         <div className="clinicListSearch">
           <Paper className={classes.root}>
             <InputBase className={classes.input} placeholder="Tìm kiếm" />
@@ -191,6 +168,7 @@ export default function ClinicList() {
           }}
         />
       </div>
+      {/* Modal delete clinic */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -199,11 +177,10 @@ export default function ClinicList() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn có chắc chắn muốn xoá phòng khám này ?
+            Bạn có chắc muốn xoá vĩnh viễn phòng khám này ?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Việc xoá phòng khám sẽ dẫn đến những thành phần liên quan đến phòng
-            phám điều không truy cập được.
+            Việc xoá phòng khám sẽ dẫn đến không thể khôi phục lại.
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button
@@ -219,6 +196,37 @@ export default function ClinicList() {
               variant="outlined"
               size="small"
               onClick={() => setOpen(false)}
+            >
+              Huỷ
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+      {/* Modal restore */}
+      <Modal
+        open={openRestore}
+        onClose={handleCloseRestore}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Bạn có chắc chắn muốn khôi phục phòng khám này ?
+          </Typography>
+          <div className="clinicListButtonConfirmDelete">
+            <Button
+              variant="outlined"
+              size="small"
+              color="secondary"
+              className="delete"
+              onClick={() => handleRestore()}
+            >
+              Khôi phục
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setOpenRestore(false)}
             >
               Huỷ
             </Button>
