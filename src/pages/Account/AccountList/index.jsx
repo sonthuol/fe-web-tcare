@@ -71,7 +71,7 @@ export default function AccountList() {
       renderCell: (params) => {
         return (
           <>
-            {params.row.isActive === true ? (
+            {params.row.isActive === true || params.row.isActive === null ? (
               <div
                 className="clinicListActive"
                 onClick={() => handleChangeStauts(params.row.id)}

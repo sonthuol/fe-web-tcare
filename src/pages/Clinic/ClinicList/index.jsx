@@ -102,8 +102,12 @@ export default function ClinicList() {
   const [clinicList, setClinicList] = useState([]);
   const [open, setOpen] = useState(false);
   const [clinic, setClinic] = useState();
+  const [openModelDelete, setOpenModelDelete] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpenModelDelete = () => setOpenModelDelete(true);
+  const handleCloseModelDelete = () => setOpenModelDelete(false);
   const [selectionModel, setSelectionModel] = useState();
 
   useEffect(() => {
@@ -117,6 +121,12 @@ export default function ClinicList() {
   const handleOpenModal = (id) => {
     handleOpen();
     setClinic(id);
+  };
+
+  const handleOpenRestoreModal = () => {
+    if (selectionModel) {
+      handleOpenModelDelete();
+    }
   };
 
   const handleDelete = async () => {
@@ -133,17 +143,19 @@ export default function ClinicList() {
     await clinicService.changeStatus(id, statusCurrent.status, user.id);
   };
 
-  const handleSelectedDelete = () => {
+  const handleSelectedDelete = async () => {
     if (selectionModel) {
-      console.log(selectionModel);
+      const user = await authService.getCurrentUser();
       setClinicList(
         clinicList.filter((item) => !selectionModel.includes(item.id))
       );
-      console.log(clinicList);
+      for (let index = 0; index < selectionModel.length; index++) {
+        await clinicService.deleteClinic(selectionModel[index], user.id);
+      }
     }
+    handleCloseModelDelete();
   };
 
-  console.log(clinicList);
   return (
     <div className="clinicList">
       <div className="clinicListTitleContainer">
@@ -156,7 +168,7 @@ export default function ClinicList() {
         <div className="clinicListDeleteAndRestore">
           <div
             className="clinicListSelectedDelete"
-            onClick={() => handleSelectedDelete()}
+            onClick={() => handleOpenRestoreModal()}
           >
             <DeleteOutlineIcon className="clinicListSelectedDeleteIcon" />
             <h5>Xoá</h5>
@@ -219,6 +231,40 @@ export default function ClinicList() {
               variant="outlined"
               size="small"
               onClick={() => setOpen(false)}
+            >
+              Huỷ
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+      <Modal
+        open={openModelDelete}
+        onClose={handleCloseModelDelete}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Bạn có chắc chắn muốn xoá phòng khám này ?
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Việc xoá phòng khám sẽ dẫn đến những thành phần liên quan đến phòng
+            phám điều không truy cập được.
+          </Typography>
+          <div className="clinicListButtonConfirmDelete">
+            <Button
+              variant="outlined"
+              size="small"
+              color="secondary"
+              className="delete"
+              onClick={() => handleSelectedDelete()}
+            >
+              Xoá
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setOpenModelDelete(false)}
             >
               Huỷ
             </Button>
