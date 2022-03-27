@@ -8,9 +8,18 @@ import ReportIcon from "@material-ui/icons/Report";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import authService from "../../../services/Auth/auth.service";
+import { NavLink } from "react-router-dom";
 import "./style.css";
 export default function Sidebar() {
+  const [role, setRole] = useState("");
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    if (user) {
+      setRole(user.roles[0]);
+    }
+  }, []);
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -28,20 +37,42 @@ export default function Sidebar() {
             </li>
           </ul>
         </div>
+        {role === "ROLE_ROOT" ? (
+          <div className="sidebarMenu">
+            <h3 className="sidebarTitle">Quản lý hệ thống</h3>
+            <ul className="sidebarList">
+              <NavLink to="/accounts" className="sidebarLink">
+                <li className="sidebarItem">
+                  <PermIdentityIcon className="sidebarIcon" />
+                </li>
+                Tài khoản
+              </NavLink>
+              <NavLink to="/clinics" className="sidebarLink">
+                <li className="sidebarItem">
+                  <LocalHospitalIcon className="sidebarIcon" />
+                </li>
+                Phòng khám
+              </NavLink>
+            </ul>
+          </div>
+        ) : (
+          <></>
+        )}
+
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quản lý phòng khám</h3>
           <ul className="sidebarList">
-            <NavLink to="/accounts" className="sidebarLink">
+            <NavLink to="/specialties" className="sidebarLink">
               <li className="sidebarItem">
                 <PermIdentityIcon className="sidebarIcon" />
               </li>
-              Tài khoản
+              Chuyên khoa
             </NavLink>
-            <NavLink to="/clinics" className="sidebarLink">
+            <NavLink to="/doctors" className="sidebarLink">
               <li className="sidebarItem">
                 <LocalHospitalIcon className="sidebarIcon" />
               </li>
-              Phòng khám
+              Bác sĩ
             </NavLink>
           </ul>
         </div>
