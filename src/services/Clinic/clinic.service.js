@@ -56,6 +56,10 @@ const restore = async (id) => {
   );
 };
 
+const getCurrentClinic = () => {
+  return JSON.parse(localStorage.getItem("clinic"));
+};
+
 export default {
   getAllClinics,
   clinicDetails,
@@ -66,4 +70,5 @@ export default {
   getAllClinicRestore,
   restore,
   deleteRestore,
+  getCurrentClinic,
 };

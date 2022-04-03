@@ -14,10 +14,6 @@ const updateUser = async (id, data) => {
   return await axios.put(API_URL + "/" + id, data, { headers: authHeader() });
 };
 
-const createNewClinic = async (data) => {
-  return await axios.post(API_URL, data, { headers: authHeader() });
-};
-
 const changeStatus = async (id, status, userId) => {
   return await axios.patch(
     API_URL + "/changeStatus/" + id,
@@ -35,10 +31,25 @@ const deleteUser = async (id, user) => {
     { headers: authHeader() }
   );
 };
+
+const setCurrentClinic = async (id) => {
+  return await axios
+    .get(
+      API_URL + "/userBelongClinc/" + id,
+      { id: id },
+      { headers: authHeader() }
+    )
+    .then((response) => {
+      console.log(response);
+      localStorage.setItem("clinic", JSON.stringify(response.data.data[0]));
+    });
+};
+
 export default {
   getAllUser,
   userDetails,
   updateUser,
   deleteUser,
   changeStatus,
+  setCurrentClinic,
 };

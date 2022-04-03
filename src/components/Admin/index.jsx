@@ -11,8 +11,11 @@ import ClinicList from "../../pages/Clinic/ClinicList";
 import Clinic from "../../pages/Clinic/Clinic";
 import ClinicRestore from "../../pages/Clinic/ClinicRestore";
 import NewClinic from "../../pages/Clinic/NewClinic";
-import SpecialtyList from "../../pages/Specialty/SpecialtyList";
 import DoctorList from "../../pages/Doctor/DoctorList";
+import SpecialtyList from "../../pages/Specialty/SpecialtyList";
+import NewSpecialty from "../../pages/Specialty/NewSpecialty";
+import Specialty from "../../pages/Specialty/Specialty";
+import SpecialtyRestore from "../../pages/Specialty/SpecialtyRestore";
 
 export default function Admin() {
   return (
@@ -31,7 +34,13 @@ export default function Admin() {
           <Route path="/clinics/:id" component={Clinic} />
 
           <Route exact path="/specialties" component={SpecialtyList} />
-
+          <Route
+            exact
+            path="/specialties/restore"
+            component={SpecialtyRestore}
+          />
+          <Route exact path="/specialties/create" component={NewSpecialty} />
+          <Route path="/specialties/:id" component={Specialty} />
           <Route exact path="/doctors" component={DoctorList} />
         </Switch>
       </div>
