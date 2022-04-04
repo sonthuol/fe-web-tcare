@@ -40,6 +40,22 @@ const getAllSpecialtyRestore = async () => {
   return await axios.get(API_URL + "/restore", { headers: authHeader() });
 };
 
+const restore = async (id) => {
+  return await axios.patch(
+    API_URL + "/restore/" + id,
+    { id: id },
+    { headers: authHeader() }
+  );
+};
+
+const deleteRestore = async (id) => {
+  return await axios.delete(
+    API_URL + "/restore/" + id,
+    { id: id },
+    { headers: authHeader() }
+  );
+};
+
 export default {
   getAllSpecialties,
   changeStatus,
@@ -48,4 +64,6 @@ export default {
   updateSpecialty,
   deleteSpecialty,
   getAllSpecialtyRestore,
+  restore,
+  deleteRestore,
 };

@@ -147,7 +147,7 @@ export default function SpecialtyList() {
         specialtyList.filter((item) => !selectionModel.includes(item.id))
       );
       for (let index = 0; index < selectionModel.length; index++) {
-        // await specialtyService.deleteSpecialty(selectionModel[index], user.id);
+        await specialtyService.deleteSpecialty(selectionModel[index], user.id);
       }
     }
     handleCloseModelDelete();

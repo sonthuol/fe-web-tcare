@@ -119,13 +119,13 @@ export default function SpecialtyRestore() {
 
   const handleDelete = async () => {
     setSpecialtyList(specialtyList.filter((item) => item.id !== specialty));
-    // await specialtyService.deleteRestore(specialty);
+    await specialtyService.deleteRestore(specialty);
     handleClose();
   };
 
   const handleRestore = async () => {
     setSpecialtyList(specialtyList.filter((item) => item.id !== specialty));
-    // await specialtyService.restore(specialty);
+    await specialtyService.restore(specialty);
     handleCloseRestore();
   };
 
@@ -135,7 +135,7 @@ export default function SpecialtyRestore() {
         specialtyList.filter((item) => !selectionModel.includes(item.id))
       );
       for (let index = 0; index < selectionModel.length; index++) {
-        // await specialtyService.deleteRestore(selectionModel[index]);
+        await specialtyService.deleteRestore(selectionModel[index]);
       }
       handleCloseModelDelete();
     }
@@ -147,7 +147,7 @@ export default function SpecialtyRestore() {
         specialtyList.filter((item) => !selectionModel.includes(item.id))
       );
       for (let index = 0; index < selectionModel.length; index++) {
-        // await specialtyService.restore(selectionModel[index]);
+        await specialtyService.restore(selectionModel[index]);
       }
       handleCloseModelRestore();
     }
@@ -246,7 +246,7 @@ export default function SpecialtyRestore() {
             <Button
               variant="outlined"
               size="small"
-              color="secondary"
+              color="primary"
               className="delete"
               onClick={() => handleRestore()}
             >
@@ -313,11 +313,11 @@ export default function SpecialtyRestore() {
             <Button
               variant="outlined"
               size="small"
-              color="secondary"
+              color="primary"
               className="delete"
               onClick={() => handleSelectedRestore()}
             >
-              Xoá
+              Khôi phục
             </Button>
             <Button
               variant="outlined"
