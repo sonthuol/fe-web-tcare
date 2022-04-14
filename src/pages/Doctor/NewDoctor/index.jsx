@@ -44,8 +44,12 @@ export default function NewDoctor() {
     }
 
     async function feachSpecialty() {
+      const clinic = await clinicService.getCurrentClinic();
       let specialty = await specialtyService.getAllSpecialties();
-      setSpecialtyList(specialty.data.data);
+      specialty = specialty.data.data.filter(
+        (item) => item.clinics[0].id === clinic.id
+      );
+      setSpecialtyList(specialty);
     }
 
     init();
