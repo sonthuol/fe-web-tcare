@@ -9,6 +9,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import authService from "../../../services/Auth/auth.service";
+import clinicService from "../../../services/Clinic/clinic.service";
 import specialtyService from "../../../services/Specialty/specialty.service";
 import RestoreIcon from "@material-ui/icons/Restore";
 
@@ -109,8 +110,12 @@ export default function SpecialtyList() {
 
   useEffect(() => {
     async function feachSpecialty() {
+      const clinic = await clinicService.getCurrentClinic();
       let specialty = await specialtyService.getAllSpecialties();
-      setSpecialtyList(specialty.data.data);
+      specialty = specialty.data.data.filter(
+        (item) => item.clinics[0].id === clinic.id
+      );
+      setSpecialtyList(specialty);
     }
     feachSpecialty();
   }, []);

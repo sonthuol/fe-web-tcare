@@ -16,6 +16,7 @@ import SpecialtyList from "../../pages/Specialty/SpecialtyList";
 import NewSpecialty from "../../pages/Specialty/NewSpecialty";
 import Specialty from "../../pages/Specialty/Specialty";
 import SpecialtyRestore from "../../pages/Specialty/SpecialtyRestore";
+import NewDoctor from "../../pages/Doctor/NewDoctor";
 
 export default function Admin() {
   return (
@@ -24,15 +25,18 @@ export default function Admin() {
       <div className="container">
         <Sidebar />
         <Switch>
+          {/* Tài khảo */}
           <Route exact path="/" component={Home} />
           <Route exact path="/accounts" component={AccountList} />
           <Route path="/accounts/:id" component={Account} />
 
+          {/* Phòng khám */}
           <Route exact path="/clinics" component={ClinicList} />
           <Route exact path="/clinics/restore" component={ClinicRestore} />
           <Route exact path="/clinics/create" component={NewClinic} />
           <Route path="/clinics/:id" component={Clinic} />
 
+          {/* Chuyên khoa */}
           <Route exact path="/specialties" component={SpecialtyList} />
           <Route
             exact
@@ -42,6 +46,9 @@ export default function Admin() {
           <Route exact path="/specialties/create" component={NewSpecialty} />
           <Route path="/specialties/:id" component={Specialty} />
           <Route exact path="/doctors" component={DoctorList} />
+
+          {/* Bác sĩ */}
+          <Route exact path="/doctors/create" component={NewDoctor} />
         </Switch>
       </div>
     </div>
