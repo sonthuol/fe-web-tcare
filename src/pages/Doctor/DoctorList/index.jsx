@@ -160,7 +160,7 @@ export default function DoctorList() {
     let statusCurrent = doctorList.find((item) => item.id === id);
     statusCurrent.isActive = !statusCurrent.isActive;
     const user = await authService.getCurrentUser();
-    await doctorService.changeStatus(id, statusCurrent.status, user.id);
+    await doctorService.changeStatus(id, statusCurrent.isActive, user.id);
   };
 
   const handleSelectedDelete = async () => {
