@@ -10,6 +10,7 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import authService from "../../../services/Auth/auth.service";
 import clinicService from "../../../services/Clinic/clinic.service";
+import doctorService from "../../../services/Doctor/doctor.service";
 import RestoreIcon from "@material-ui/icons/Restore";
 
 import "./style.css";
@@ -47,120 +48,139 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DoctorList() {
   const classes = useStyles();
-  //   const columns = [
-  //     { field: "id", headerName: "Mã", width: 100 },
-  //     { field: "name", headerName: "Tên phòng khám", width: 240 },
-  //     { field: "phoneNumber", headerName: "Số điện thoại", width: 200 },
-  //     { field: "address", headerName: "Địa chỉ", width: 200 },
-  //     {
-  //       field: "status",
-  //       headerName: "Trạng thái",
-  //       width: 120,
-  //       renderCell: (params) => {
-  //         return (
-  //           <>
-  //             {params.row.status === true ? (
-  //               <div
-  //                 className="clinicListActive"
-  //                 onClick={() => handleChangeStauts(params.row.id)}
-  //               >
-  //                 <Brightness1Icon className="clinicListActiveIcon active" /> Hiển
-  //                 thị
-  //               </div>
-  //             ) : (
-  //               <div
-  //                 className="clinicListActive"
-  //                 onClick={() => handleChangeStauts(params.row.id)}
-  //               >
-  //                 <Brightness1Icon className="clinicListActiveIcon unactive" /> Ẩn
-  //               </div>
-  //             )}
-  //           </>
-  //         );
-  //       },
-  //     },
-  //     {
-  //       field: "action",
-  //       headerName: "Hành động",
-  //       width: 150,
-  //       renderCell: (params) => {
-  //         return (
-  //           <>
-  //             <Link to={"/clinics/" + params.row.id}>
-  //               <button className="clinicListEdit">Edit</button>
-  //             </Link>
-  //             <DeleteOutlineIcon
-  //               className="clinicListDelete"
-  //               onClick={() => handleOpenModal(params.row.id)}
-  //             />
-  //           </>
-  //         );
-  //       },
-  //     },
-  //   ];
+  const columns = [
+    { field: "id", headerName: "Mã", width: 100 },
+    { field: "name", headerName: "Họ và tên", width: 240 },
+    { field: "birthday", headerName: "Ngày sinh", width: 150 },
+    {
+      field: "gender",
+      headerName: "Giới tính",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <>
+            {params.row.gender === true ? (
+              <div className="clinicListActive">Nam</div>
+            ) : (
+              <div className="clinicListActive">Nữ</div>
+            )}
+          </>
+        );
+      },
+    },
+    { field: "phoneNumber", headerName: "Số điện thoại", width: 150 },
+    {
+      field: "isActive",
+      headerName: "Trạng thái",
+      width: 120,
+      renderCell: (params) => {
+        return (
+          <>
+            {params.row.isActive === true ? (
+              <div
+                className="clinicListActive"
+                onClick={() => handleChangeStauts(params.row.id)}
+              >
+                <Brightness1Icon className="clinicListActiveIcon active" /> Hiển
+                thị
+              </div>
+            ) : (
+              <div
+                className="clinicListActive"
+                onClick={() => handleChangeStauts(params.row.id)}
+              >
+                <Brightness1Icon className="clinicListActiveIcon unactive" /> Ẩn
+              </div>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      field: "action",
+      headerName: "Hành động",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={"/clinics/" + params.row.id}>
+              <button className="clinicListEdit">Edit</button>
+            </Link>
+            <DeleteOutlineIcon
+              className="clinicListDelete"
+              onClick={() => handleOpenModal(params.row.id)}
+            />
+          </>
+        );
+      },
+    },
+  ];
 
-  //   const [clinicList, setClinicList] = useState([]);
-  //   const [open, setOpen] = useState(false);
-  //   const [clinic, setClinic] = useState();
-  //   const [openModelDelete, setOpenModelDelete] = useState(false);
-  //   const handleOpen = () => setOpen(true);
-  //   const handleClose = () => setOpen(false);
-  //   const handleOpenModelDelete = () => setOpenModelDelete(true);
-  //   const handleCloseModelDelete = () => setOpenModelDelete(false);
-  //   const [selectionModel, setSelectionModel] = useState();
+  const [doctorList, setDoctorList] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [doctor, setDoctor] = useState();
+  const [openModelDelete, setOpenModelDelete] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleOpenModelDelete = () => setOpenModelDelete(true);
+  const handleCloseModelDelete = () => setOpenModelDelete(false);
+  const [selectionModel, setSelectionModel] = useState();
 
-  //   useEffect(() => {
-  //     async function feachClinic() {
-  //       let clinic = await clinicService.getAllClinics();
-  //       setClinicList(clinic.data.data);
-  //     }
-  //     feachClinic();
-  //   }, []);
+  useEffect(() => {
+    async function feachDoctor() {
+      let doctor = await doctorService.getAllDoctors();
+      const clinic = await clinicService.getCurrentClinic();
+      doctor = doctor.data.data.filter(
+        (item) => item.clinics[0].id === clinic.id
+      );
+      setDoctorList(doctor);
+    }
+    feachDoctor();
+  }, []);
 
-  //   const handleOpenModal = (id) => {
-  //     handleOpen();
-  //     setClinic(id);
-  //   };
+  const handleOpenModal = (id) => {
+    handleOpen();
+    setDoctor(id);
+  };
 
-  //   const handleOpenRestoreModal = () => {
-  //     if (selectionModel) {
-  //       handleOpenModelDelete();
-  //     }
-  //   };
+  const handleOpenRestoreModal = () => {
+    if (selectionModel) {
+      handleOpenModelDelete();
+    }
+  };
 
-  //   const handleDelete = async () => {
-  //     setClinicList(clinicList.filter((item) => item.id !== clinic));
-  //     const user = await authService.getCurrentUser();
-  //     await clinicService.deleteClinic(clinic, user.id);
-  //     handleClose();
-  //   };
+  const handleDelete = async () => {
+    setDoctorList(doctorList.filter((item) => item.id !== doctor));
+    const user = await authService.getCurrentUser();
+    // await doctorService.deleteDoctor(doctor, user.id);
+    handleClose();
+  };
 
-  //   const handleChangeStauts = async (id) => {
-  //     let statusCurrent = clinicList.find((item) => item.id === id);
-  //     statusCurrent.status = !statusCurrent.status;
-  //     const user = await authService.getCurrentUser();
-  //     await clinicService.changeStatus(id, statusCurrent.status, user.id);
-  //   };
+  const handleChangeStauts = async (id) => {
+    let statusCurrent = doctorList.find((item) => item.id === id);
+    statusCurrent.isActive = !statusCurrent.isActive;
+    const user = await authService.getCurrentUser();
+    await doctorService.changeStatus(id, statusCurrent.status, user.id);
+  };
 
-  //   const handleSelectedDelete = async () => {
-  //     if (selectionModel) {
-  //       const user = await authService.getCurrentUser();
-  //       setClinicList(
-  //         clinicList.filter((item) => !selectionModel.includes(item.id))
-  //       );
-  //       for (let index = 0; index < selectionModel.length; index++) {
-  //         await clinicService.deleteClinic(selectionModel[index], user.id);
-  //       }
-  //     }
-  //     handleCloseModelDelete();
-  //   };
+  const handleSelectedDelete = async () => {
+    if (selectionModel) {
+      const user = await authService.getCurrentUser();
+      setDoctorList(
+        doctorList.filter((item) => !selectionModel.includes(item.id))
+      );
+      for (let index = 0; index < selectionModel.length; index++) {
+        // await doctorService.deleteDoctor(selectionModel[index], user.id);
+      }
+    }
+    handleCloseModelDelete();
+  };
 
   return (
     <div className="clinicList">
-      Doctor
-      {/* <div className="clinicListTitleContainer">
-        <h1 className="clinicListTitle">Danh sách phòng khám</h1>
-        <Link to="/clinics/create">
+      <div className="clinicListTitleContainer">
+        <h1 className="clinicListTitle">Danh sách bác sĩ</h1>
+        <Link to="/doctors/create">
           <button className="clinicListAddButton">Tạo mới</button>
         </Link>
       </div>
@@ -193,7 +213,7 @@ export default function DoctorList() {
       <div style={{ height: 500, width: "100%" }}>
         <DataGrid
           className="clinicListContainer"
-          rows={clinicList}
+          rows={doctorList}
           columns={columns}
           pageSize={7}
           checkboxSelection
@@ -270,7 +290,7 @@ export default function DoctorList() {
             </Button>
           </div>
         </Box>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }
