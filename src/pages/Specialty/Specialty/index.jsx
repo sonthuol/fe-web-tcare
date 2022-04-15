@@ -13,7 +13,7 @@ import "./style.css";
 import authService from "../../../services/Auth/auth.service";
 import specialtyService from "../../../services/Specialty/specialty.service";
 
-export default function Account() {
+export default function Specialty() {
   const [specialty, setSpecialty] = useState([]);
   const [redirect, setRedirect] = useState(false);
 

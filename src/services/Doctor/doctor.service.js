@@ -10,6 +10,14 @@ const createNewDoctor = async (data) => {
   return await axios.post(API_URL, data, { headers: authHeader() });
 };
 
+const doctorDetails = async (id) => {
+  return await axios.get(API_URL + "/" + id, { headers: authHeader() });
+};
+
+const updateDoctor = async (id, data) => {
+  return await axios.put(API_URL + "/" + id, data, { headers: authHeader() });
+};
+
 const changeStatus = async (id, status, userId) => {
   return await axios.patch(
     API_URL + "/changeStatus/" + id,
@@ -24,4 +32,6 @@ export default {
   createNewDoctor,
   getAllDoctors,
   changeStatus,
+  doctorDetails,
+  updateDoctor,
 };

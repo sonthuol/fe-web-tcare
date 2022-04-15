@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 import "./style.css";
 import authService from "../../../services/Auth/auth.service";
 
-export default function Account() {
+export default function Clinic() {
   const [clinic, setClinic] = useState([]);
   const [redirect, setRedirect] = useState(false);
 

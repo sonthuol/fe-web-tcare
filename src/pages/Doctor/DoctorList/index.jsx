@@ -103,7 +103,7 @@ export default function DoctorList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/clinics/" + params.row.id}>
+            <Link to={"/doctors/" + params.row.id}>
               <button className="clinicListEdit">Edit</button>
             </Link>
             <DeleteOutlineIcon
