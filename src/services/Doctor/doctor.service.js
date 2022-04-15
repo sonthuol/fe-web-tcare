@@ -10,6 +10,14 @@ const createNewDoctor = async (data) => {
   return await axios.post(API_URL, data, { headers: authHeader() });
 };
 
+const deleteDoctor = async (id, user) => {
+  return await axios.patch(
+    API_URL + "/" + id,
+    { id: id, user: user },
+    { headers: authHeader() }
+  );
+};
+
 const doctorDetails = async (id) => {
   return await axios.get(API_URL + "/" + id, { headers: authHeader() });
 };
@@ -34,4 +42,5 @@ export default {
   changeStatus,
   doctorDetails,
   updateDoctor,
+  deleteDoctor,
 };

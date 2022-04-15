@@ -152,7 +152,7 @@ export default function DoctorList() {
   const handleDelete = async () => {
     setDoctorList(doctorList.filter((item) => item.id !== doctor));
     const user = await authService.getCurrentUser();
-    // await doctorService.deleteDoctor(doctor, user.id);
+    await doctorService.deleteDoctor(doctor, user.id);
     handleClose();
   };
 
@@ -265,11 +265,11 @@ export default function DoctorList() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn có chắc chắn muốn xoá phòng khám này ?
+            Bạn có chắc chắn muốn xoá bác sĩ này ?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Việc xoá phòng khám sẽ dẫn đến những thành phần liên quan đến phòng
-            phám điều không truy cập được.
+            Việc xoá bác sĩ sẽ dẫn đến những thành phần liên quan đến bác sĩ
+            điều không truy cập được.
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button
