@@ -1,0 +1,10 @@
+.clinicList{
+    flex: 4;
+    padding: 10px;
+    text-align: center;
+}
+
+.clinicList p {
+  margin-top: 20px;
+  font-size: 25px;
+}

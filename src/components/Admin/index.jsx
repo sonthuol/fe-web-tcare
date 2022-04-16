@@ -19,40 +19,102 @@ import SpecialtyRestore from "../../pages/Specialty/SpecialtyRestore";
 import NewDoctor from "../../pages/Doctor/NewDoctor";
 import Doctor from "../../pages/Doctor/Doctor";
 import DoctorRestore from "../../pages/Doctor/DoctorRestore";
+import NoAccess from "../../pages/NoAccess";
+import { useEffect, useState } from "react";
+import authService from "../../services/Auth/auth.service";
 
 export default function Admin() {
+  const [role, setRole] = useState("");
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    if (user) {
+      setRole(user.roles[0]);
+    }
+  }, []);
   return (
     <div>
       <Topbar />
       <div className="container">
-        <Sidebar />
+        <Sidebar role={role} />
         <Switch>
           {/* Tài khảo */}
-          <Route exact path="/" component={Home} />
-          <Route exact path="/accounts" component={AccountList} />
-          <Route path="/accounts/:id" component={Account} />
+          <Route
+            exact
+            path="/"
+            component={role === "ROLE_ROOT" ? Home : NoAccess}
+          />
+          <Route
+            exact
+            path="/accounts"
+            component={role === "ROLE_ROOT" ? AccountList : NoAccess}
+          />
+          <Route
+            path="/accounts/:id"
+            component={role === "ROLE_ROOT" ? Account : NoAccess}
+          />
 
           {/* Phòng khám */}
-          <Route exact path="/clinics" component={ClinicList} />
-          <Route exact path="/clinics/restore" component={ClinicRestore} />
-          <Route exact path="/clinics/create" component={NewClinic} />
-          <Route path="/clinics/:id" component={Clinic} />
+          <Route
+            exact
+            path="/clinics"
+            component={role === "ROLE_ROOT" ? ClinicList : NoAccess}
+          />
+          <Route
+            exact
+            path="/clinics/restore"
+            component={role === "ROLE_ROOT" ? ClinicRestore : NoAccess}
+          />
+          <Route
+            exact
+            path="/clinics/create"
+            component={role === "ROLE_ROOT" ? NewClinic : NoAccess}
+          />
+          <Route
+            path="/clinics/:id"
+            component={role === "ROLE_ROOT" ? Clinic : NoAccess}
+          />
 
           {/* Chuyên khoa */}
-          <Route exact path="/specialties" component={SpecialtyList} />
+          <Route
+            exact
+            path="/specialties"
+            component={role === "ROLE_ADMIN" ? SpecialtyList : NoAccess}
+          />
           <Route
             exact
             path="/specialties/restore"
-            component={SpecialtyRestore}
+            component={role === "ROLE_ADMIN" ? SpecialtyRestore : NoAccess}
           />
-          <Route exact path="/specialties/create" component={NewSpecialty} />
-          <Route path="/specialties/:id" component={Specialty} />
+          <Route
+            exact
+            path="/specialties/create"
+            component={role === "ROLE_ADMIN" ? NewSpecialty : NoAccess}
+          />
+          <Route
+            path="/specialties/:id"
+            component={role === "ROLE_ADMIN" ? Specialty : NoAccess}
+          />
 
           {/* Bác sĩ */}
-          <Route exact path="/doctors" component={DoctorList} />
-          <Route exact path="/doctors/restore" component={DoctorRestore} />
-          <Route exact path="/doctors/create" component={NewDoctor} />
-          <Route path="/doctors/:id" component={Doctor} />
+          <Route
+            exact
+            path="/doctors"
+            component={role === "ROLE_ADMIN" ? DoctorList : NoAccess}
+          />
+          <Route
+            exact
+            path="/doctors/restore"
+            component={role === "ROLE_ADMIN" ? DoctorRestore : NoAccess}
+          />
+          <Route
+            exact
+            path="/doctors/create"
+            component={role === "ROLE_ADMIN" ? NewDoctor : NoAccess}
+          />
+          <Route
+            path="/doctors/:id"
+            component={role === "ROLE_ADMIN" ? Doctor : NoAccess}
+          />
         </Switch>
       </div>
     </div>

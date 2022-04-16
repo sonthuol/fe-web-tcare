@@ -8,18 +8,9 @@ import ReportIcon from "@material-ui/icons/Report";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
 import React from "react";
-import { useEffect, useState } from "react";
-import authService from "../../../services/Auth/auth.service";
 import { NavLink } from "react-router-dom";
 import "./style.css";
-export default function Sidebar() {
-  const [role, setRole] = useState("");
-  useEffect(() => {
-    const user = authService.getCurrentUser();
-    if (user) {
-      setRole(user.roles[0]);
-    }
-  }, []);
+export default function Sidebar(props) {
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -37,7 +28,7 @@ export default function Sidebar() {
             </li>
           </ul>
         </div>
-        {role === "ROLE_ROOT" ? (
+        {props.role === "ROLE_ROOT" ? (
           <div className="sidebarMenu">
             <h3 className="sidebarTitle">Quản lý hệ thống</h3>
             <ul className="sidebarList">
@@ -59,7 +50,7 @@ export default function Sidebar() {
           <></>
         )}
 
-        {role === "ROLE_ADMIN" ? (
+        {props.role === "ROLE_ADMIN" ? (
           <div className="sidebarMenu">
             <h3 className="sidebarTitle">Quản lý phòng khám</h3>
             <ul className="sidebarList">
