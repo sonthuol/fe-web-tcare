@@ -55,3 +55,40 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+.image_profile{
+    position: relative;
+}
+
+.myProfile{
+    display: none;
+    position: absolute;
+    width: 170px;
+    right: 15px;
+    top: 30px;
+    background-color: rgb(238, 243, 247);
+    color: #555;
+}
+
+.image_profile:hover .myProfile{
+    display: block;
+}
+
+.myProfile ul {
+    list-style-type: none;
+    padding: 10px 10px;
+}
+
+.myProfile ul li{
+    padding: 20px;
+    padding: 5px;
+}
+
+.myProfile ul a{
+    color: #555;
+    text-decoration: none;
+}
+
+.myProfile ul li:hover{
+    background-color: rgb(225, 232, 238);
+}

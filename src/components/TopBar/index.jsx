@@ -4,7 +4,12 @@ import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import LanguageIcon from "@material-ui/icons/Language";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Switch, Link } from "react-router-dom";
+import authService from "../../services/Auth/auth.service";
 export default function Topbar() {
+  const logOut = () => {
+    authService.logout();
+    window.location.reload();
+  };
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -25,11 +30,23 @@ export default function Topbar() {
           <div className="topbarIconContainer">
             <SettingsIcon />
           </div>
-          <img
-            src="https://image.thanhnien.vn/w660/Uploaded/2022/bzivoxbp/2021_01_25/rose_qnem.jpg"
-            alt=""
-            className="topAvatar"
-          />
+          <div className="image_profile">
+            <img
+              src="https://image.thanhnien.vn/w660/Uploaded/2022/bzivoxbp/2021_01_25/rose_qnem.jpg"
+              alt=""
+              className="topAvatar"
+            />
+            <div className="myProfile">
+              <ul>
+                <Link to="/profile">
+                  <li>Quản lý tài khoản</li>
+                </Link>
+                <Link to="" onClick={logOut}>
+                  <li>Đăng xuất</li>
+                </Link>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
