@@ -38,11 +38,7 @@ export default function Admin() {
         <Sidebar role={role} />
         <Switch>
           {/* Tài khảo */}
-          <Route
-            exact
-            path="/"
-            component={role === "ROLE_ROOT" ? Home : NoAccess}
-          />
+          <Route exact path="/" component={Home} />
           <Route
             exact
             path="/accounts"

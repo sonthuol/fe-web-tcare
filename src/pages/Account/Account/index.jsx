@@ -53,9 +53,6 @@ export default function Account() {
 
       <div className="userTitleContainer">
         <h1 className="userTitle">Cập nhật tài khoản</h1>
-        <Link to="/clinics/create">
-          <button className="userAddButton">Tạo mới</button>
-        </Link>
       </div>
       <div className="userContainer">
         <div className="userShow">

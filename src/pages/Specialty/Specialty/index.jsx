@@ -51,8 +51,8 @@ export default function Specialty() {
 
       <div className="userTitleContainer">
         <h1 className="userTitle">Cập nhật chuyên khoa</h1>
-        <Link to="/clinics/create">
-          <button className="userAddButton">Tạo mới</button>
+        <Link to="/specialties/create">
+          <button className="clinicListAddButton">Tạo mới</button>
         </Link>
       </div>
       <div className="userContainer">
