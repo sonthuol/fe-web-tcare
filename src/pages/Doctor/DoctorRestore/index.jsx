@@ -3,16 +3,15 @@ import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import Paper from "@material-ui/core/Paper";
 import { DataGrid } from "@material-ui/data-grid";
-import Brightness1Icon from "@material-ui/icons/Brightness1";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import SearchIcon from "@material-ui/icons/Search";
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import authService from "../../../services/Auth/auth.service";
-import clinicService from "../../../services/Clinic/clinic.service";
-import doctorService from "../../../services/Doctor/doctor.service";
-import RestoreIcon from "@material-ui/icons/Restore";
 
+import specialtyService from "../../../services/Specialty/specialty.service";
+import doctorService from "../../../services/Doctor/doctor.service";
+import clinicService from "../../../services/Clinic/clinic.service";
+import RestoreIcon from "@material-ui/icons/Restore";
 import "./style.css";
 
 const style = {
@@ -46,11 +45,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DoctorList() {
+export default function DoctorRestore() {
   const classes = useStyles();
   const columns = [
     { field: "id", headerName: "Mã", width: 100 },
-    { field: "name", headerName: "Họ và tên", width: 240 },
+    { field: "name", headerName: "Tên bác sĩ", width: 300 },
     { field: "birthday", headerName: "Ngày sinh", width: 150 },
     {
       field: "gender",
@@ -70,42 +69,16 @@ export default function DoctorList() {
     },
     { field: "phoneNumber", headerName: "Số điện thoại", width: 150 },
     {
-      field: "isActive",
-      headerName: "Trạng thái",
-      width: 120,
-      renderCell: (params) => {
-        return (
-          <>
-            {params.row.isActive === true ? (
-              <div
-                className="clinicListActive"
-                onClick={() => handleChangeStauts(params.row.id)}
-              >
-                <Brightness1Icon className="clinicListActiveIcon active" /> Hiển
-                thị
-              </div>
-            ) : (
-              <div
-                className="clinicListActive"
-                onClick={() => handleChangeStauts(params.row.id)}
-              >
-                <Brightness1Icon className="clinicListActiveIcon unactive" /> Ẩn
-              </div>
-            )}
-          </>
-        );
-      },
-    },
-    {
       field: "action",
       headerName: "Hành động",
-      width: 150,
+      width: 200,
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/doctors/" + params.row.id}>
-              <button className="clinicListEdit">Edit</button>
-            </Link>
+            <RestoreIcon
+              className="clinicListRetoreIcon"
+              onClick={() => handleOpenRestoreModal(params.row.id)}
+            />
             <DeleteOutlineIcon
               className="clinicListDelete"
               onClick={() => handleOpenModal(params.row.id)}
@@ -118,22 +91,30 @@ export default function DoctorList() {
 
   const [doctorList, setDoctorList] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openRestore, setOpenRestore] = useState(false);
   const [doctor, setDoctor] = useState();
   const [openModelDelete, setOpenModelDelete] = useState(false);
+  const [openModelRestore, setOpenModelRestore] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpenRestore = () => setOpenRestore(true);
+  const handleCloseRestore = () => setOpenRestore(false);
   const handleOpenModelDelete = () => setOpenModelDelete(true);
   const handleCloseModelDelete = () => setOpenModelDelete(false);
+  const handleOpenModelRestore = () => setOpenModelRestore(true);
+  const handleCloseModelRestore = () => setOpenModelRestore(false);
   const [selectionModel, setSelectionModel] = useState();
 
   useEffect(() => {
     async function feachDoctor() {
-      let doctor = await doctorService.getAllDoctors();
+      let doctor = await doctorService.getAllDoctorRestore();
       const clinic = await clinicService.getCurrentClinic();
       doctor = doctor.data.data.filter(
         (item) => item.clinics[0].id === clinic.id
       );
-      setDoctorList(doctor);
+      if (doctor) {
+        setDoctorList(doctor);
+      }
     }
     feachDoctor();
   }, []);
@@ -143,64 +124,81 @@ export default function DoctorList() {
     setDoctor(id);
   };
 
-  const handleOpenRestoreModal = () => {
+  const handleOpenRestoreModal = (id) => {
+    handleOpenRestore();
+    setDoctor(id);
+  };
+
+  const handleOpenDeleteModalSelection = () => {
     if (selectionModel) {
       handleOpenModelDelete();
     }
   };
 
+  const handleOpenRestoreModalSelection = () => {
+    if (selectionModel) {
+      handleOpenModelRestore();
+    }
+  };
+
   const handleDelete = async () => {
     setDoctorList(doctorList.filter((item) => item.id !== doctor));
-    const user = await authService.getCurrentUser();
-    await doctorService.deleteDoctor(doctor, user.id);
+    await doctorService.deleteRestore(doctor);
     handleClose();
   };
 
-  const handleChangeStauts = async (id) => {
-    let statusCurrent = doctorList.find((item) => item.id === id);
-    statusCurrent.isActive = !statusCurrent.isActive;
-    const user = await authService.getCurrentUser();
-    await doctorService.changeStatus(id, statusCurrent.isActive, user.id);
+  const handleRestore = async () => {
+    setDoctorList(doctorList.filter((item) => item.id !== doctor));
+    await doctorService.restore(doctor);
+    handleCloseRestore();
   };
 
   const handleSelectedDelete = async () => {
     if (selectionModel) {
-      const user = await authService.getCurrentUser();
       setDoctorList(
         doctorList.filter((item) => !selectionModel.includes(item.id))
       );
       for (let index = 0; index < selectionModel.length; index++) {
-        await doctorService.deleteDoctor(selectionModel[index], user.id);
+        await doctorService.deleteRestore(selectionModel[index]);
       }
+      handleCloseModelDelete();
     }
-    handleCloseModelDelete();
+  };
+
+  const handleSelectedRestore = async () => {
+    if (selectionModel) {
+      setDoctorList(
+        doctorList.filter((item) => !selectionModel.includes(item.id))
+      );
+      for (let index = 0; index < selectionModel.length; index++) {
+        await doctorService.restore(selectionModel[index]);
+      }
+      handleCloseModelRestore();
+    }
   };
 
   return (
     <div className="clinicList">
       <div className="clinicListTitleContainer">
-        <h1 className="clinicListTitle">Danh sách bác sĩ</h1>
-        <Link to="/doctors/create">
-          <button className="clinicListAddButton">Tạo mới</button>
-        </Link>
+        <h1 className="clinicListTitle">Khôi phục bác sĩ</h1>
       </div>
       <div className="clinicListSelectedDeleteAndSearch">
         <div className="clinicListDeleteAndRestore">
           <div
             className="clinicListSelectedDelete"
-            onClick={() => handleOpenRestoreModal()}
+            onClick={() => handleOpenDeleteModalSelection()}
           >
             <DeleteOutlineIcon className="clinicListSelectedDeleteIcon" />
             <h5>Xoá</h5>
           </div>
-          <div className="clinicListSelectedRestore">
-            <Link to="/doctors/restore" className="clinicListLinkRestore">
-              <RestoreIcon className="clinicListRestoreIcon" />
-              <h5>Khôi phục</h5>
-            </Link>
+          <div
+            className="clinicListSelectedRestore"
+            onClick={() => handleOpenRestoreModalSelection()}
+          >
+            <RestoreIcon className="clinicListRestoreIcon" />
+            <h5>Khôi phục</h5>
           </div>
         </div>
-
         <div className="clinicListSearch">
           <Paper className={classes.root}>
             <InputBase className={classes.input} placeholder="Tìm kiếm" />
@@ -223,6 +221,7 @@ export default function DoctorList() {
           }}
         />
       </div>
+      {/* Modal delete clinic */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -231,11 +230,10 @@ export default function DoctorList() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn có chắc chắn muốn xoá phòng khám này ?
+            Bạn có chắc muốn xoá vĩnh viễn phòng khám này ?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Việc xoá phòng khám sẽ dẫn đến những thành phần liên quan đến phòng
-            phám điều không truy cập được.
+            Việc xoá phòng khám sẽ dẫn đến không thể khôi phục lại.
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button
@@ -257,6 +255,37 @@ export default function DoctorList() {
           </div>
         </Box>
       </Modal>
+      {/* Modal restore */}
+      <Modal
+        open={openRestore}
+        onClose={handleCloseRestore}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Bạn có chắc chắn muốn khôi phục phòng khám này ?
+          </Typography>
+          <div className="clinicListButtonConfirmDelete">
+            <Button
+              variant="outlined"
+              size="small"
+              color="primary"
+              className="delete"
+              onClick={() => handleRestore()}
+            >
+              Khôi phục
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setOpenRestore(false)}
+            >
+              Huỷ
+            </Button>
+          </div>
+        </Box>
+      </Modal>
       <Modal
         open={openModelDelete}
         onClose={handleCloseModelDelete}
@@ -265,11 +294,10 @@ export default function DoctorList() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn có chắc chắn muốn xoá bác sĩ này ?
+            Bạn muốn xoá vĩnh viễn phòng khám này ?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Việc xoá bác sĩ sẽ dẫn đến những thành phần liên quan đến bác sĩ
-            điều không truy cập được.
+            Việc xoá vĩnh viễn phòng khám sẽ dẫn đến không thể khôi phục lại.
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button
@@ -285,6 +313,40 @@ export default function DoctorList() {
               variant="outlined"
               size="small"
               onClick={() => setOpenModelDelete(false)}
+            >
+              Huỷ
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openModelRestore}
+        onClose={handleCloseModelRestore}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Bạn muốn khôi phục phòng khám này ?
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Việc khôi phục phòng khám sẽ đến phòng khám truy cập bình thường.
+          </Typography>
+          <div className="clinicListButtonConfirmDelete">
+            <Button
+              variant="outlined"
+              size="small"
+              color="primary"
+              className="delete"
+              onClick={() => handleSelectedRestore()}
+            >
+              Khôi phục
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setOpenModelRestore(false)}
             >
               Huỷ
             </Button>

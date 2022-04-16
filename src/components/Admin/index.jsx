@@ -18,6 +18,7 @@ import Specialty from "../../pages/Specialty/Specialty";
 import SpecialtyRestore from "../../pages/Specialty/SpecialtyRestore";
 import NewDoctor from "../../pages/Doctor/NewDoctor";
 import Doctor from "../../pages/Doctor/Doctor";
+import DoctorRestore from "../../pages/Doctor/DoctorRestore";
 
 export default function Admin() {
   return (
@@ -49,6 +50,7 @@ export default function Admin() {
 
           {/* Bác sĩ */}
           <Route exact path="/doctors" component={DoctorList} />
+          <Route exact path="/doctors/restore" component={DoctorRestore} />
           <Route exact path="/doctors/create" component={NewDoctor} />
           <Route path="/doctors/:id" component={Doctor} />
         </Switch>

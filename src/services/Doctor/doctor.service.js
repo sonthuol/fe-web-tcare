@@ -36,6 +36,26 @@ const changeStatus = async (id, status, userId) => {
   );
 };
 
+const getAllDoctorRestore = async () => {
+  return await axios.get(API_URL + "/restore", { headers: authHeader() });
+};
+
+const restore = async (id) => {
+  return await axios.patch(
+    API_URL + "/restore/" + id,
+    { id: id },
+    { headers: authHeader() }
+  );
+};
+
+const deleteRestore = async (id) => {
+  return await axios.delete(
+    API_URL + "/restore/" + id,
+    { id: id },
+    { headers: authHeader() }
+  );
+};
+
 export default {
   createNewDoctor,
   getAllDoctors,
@@ -43,4 +63,7 @@ export default {
   doctorDetails,
   updateDoctor,
   deleteDoctor,
+  getAllDoctorRestore,
+  restore,
+  deleteRestore,
 };
