@@ -8,7 +8,7 @@ import authService from "../../services/Auth/auth.service";
 export default function Topbar() {
   const logOut = () => {
     authService.logout();
-    window.location.reload();
+    window.location = "/";
   };
   return (
     <div className="topbar">

@@ -59,23 +59,28 @@ export default function Sidebar() {
           <></>
         )}
 
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Quản lý phòng khám</h3>
-          <ul className="sidebarList">
-            <NavLink to="/specialties" className="sidebarLink">
-              <li className="sidebarItem">
-                <PermIdentityIcon className="sidebarIcon" />
-              </li>
-              Chuyên khoa
-            </NavLink>
-            <NavLink to="/doctors" className="sidebarLink">
-              <li className="sidebarItem">
-                <LocalHospitalIcon className="sidebarIcon" />
-              </li>
-              Bác sĩ
-            </NavLink>
-          </ul>
-        </div>
+        {role === "ROLE_ADMIN" ? (
+          <div className="sidebarMenu">
+            <h3 className="sidebarTitle">Quản lý phòng khám</h3>
+            <ul className="sidebarList">
+              <NavLink to="/specialties" className="sidebarLink">
+                <li className="sidebarItem">
+                  <PermIdentityIcon className="sidebarIcon" />
+                </li>
+                Chuyên khoa
+              </NavLink>
+              <NavLink to="/doctors" className="sidebarLink">
+                <li className="sidebarItem">
+                  <LocalHospitalIcon className="sidebarIcon" />
+                </li>
+                Bác sĩ
+              </NavLink>
+            </ul>
+          </div>
+        ) : (
+          <></>
+        )}
+
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Notification</h3>
           <ul className="sidebarList">
