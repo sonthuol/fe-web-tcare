@@ -35,6 +35,11 @@
     color: #555;
 }
 
+.topbarIconContainer a{
+    text-decoration: none;
+    color: #555;
+}
+
 .topIconBadge{
     width: 15px;
     height: 15px;

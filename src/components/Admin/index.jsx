@@ -24,16 +24,18 @@ import { useEffect, useState } from "react";
 import authService from "../../services/Auth/auth.service";
 
 export default function Admin() {
+  const [user, setUser] = useState([]);
   const [role, setRole] = useState("");
   useEffect(() => {
     const user = authService.getCurrentUser();
     if (user) {
+      setUser(user);
       setRole(user.roles[0]);
     }
   }, []);
   return (
     <div>
-      <Topbar />
+      <Topbar user={user} />
       <div className="container">
         <Sidebar role={role} />
         <Switch>

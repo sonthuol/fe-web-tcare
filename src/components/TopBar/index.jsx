@@ -5,7 +5,7 @@ import LanguageIcon from "@material-ui/icons/Language";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Switch, Link } from "react-router-dom";
 import authService from "../../services/Auth/auth.service";
-export default function Topbar() {
+export default function Topbar(props) {
   const logOut = () => {
     authService.logout();
     window.location = "/";
@@ -29,6 +29,11 @@ export default function Topbar() {
           </div>
           <div className="topbarIconContainer">
             <SettingsIcon />
+          </div>
+          <div className="topbarIconContainer">
+            <Link to="/profile">
+              {props.user.fullname === "root" ? "Root" : props.user.fullname}
+            </Link>
           </div>
           <div className="image_profile">
             <img

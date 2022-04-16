@@ -77,7 +77,6 @@ export default function Doctor() {
   return (
     <div className="user">
       {redirect && <Redirect to="/doctors" />}
-
       <div className="userTitleContainer">
         <h1 className="userTitle">Cập nhật thông tin bác sĩ</h1>
         <Link to="/doctors/create">

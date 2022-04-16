@@ -8,6 +8,8 @@ import "./style.css";
 
 export default function NewDoctor() {
   const initialValue = {
+    username: "",
+    password: "",
     name: "",
     birthday: "",
     age: "",
@@ -77,6 +79,26 @@ export default function NewDoctor() {
       {redirect && <Redirect to="/clinics" />}
       <h1 className="newUserTitle">Tạo mới bác sĩ</h1>
       <form className="newUserForm" onSubmit={handleCreateNewDoctor}>
+        <div className="newUserItem">
+          <label>Tên tài khoản</label>
+          <input
+            type="text"
+            placeholder="Nguyễn Văn A"
+            name="username"
+            value={data.username}
+            onChange={(e) => setData({ ...data, username: e.target.value })}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>Mật khẩu</label>
+          <input
+            type="text"
+            placeholder="Nguyễn Văn A"
+            name="password"
+            value={data.password}
+            onChange={(e) => setData({ ...data, password: e.target.value })}
+          />
+        </div>
         <div className="newUserItem">
           <label>Họ và tên</label>
           <input
