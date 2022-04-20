@@ -8,8 +8,6 @@ import "./style.css";
 
 export default function NewDoctor() {
   const initialValue = {
-    username: "",
-    password: "",
     name: "",
     birthday: "",
     age: "",
@@ -27,6 +25,10 @@ export default function NewDoctor() {
     deleteBy: "",
     clinicId: "", //Thuộc phòng khám nào?
     specialties: "", //Bác sĩ ở chuyên khoa nào?
+    username: "",
+    password: "",
+    fullname: "",
+    roles: ["doctor"],
   };
   const [data, setData] = useState(initialValue);
   const [specialtyList, setSpecialtyList] = useState([]);
@@ -57,8 +59,18 @@ export default function NewDoctor() {
     init();
     feachSpecialty();
   }, []);
+
   const handleCreateNewDoctor = (e) => {
     e.preventDefault();
+    authService.register(
+      data.username,
+      data.email,
+      data.password,
+      data.roles,
+      data.fullname,
+      data.address,
+      data.phoneNumber
+    );
     doctorService.createNewDoctor(data).then(
       () => {
         setRedirect(true);
@@ -76,7 +88,7 @@ export default function NewDoctor() {
   };
   return (
     <div className="newUser">
-      {redirect && <Redirect to="/clinics" />}
+      {redirect && <Redirect to="/doctors" />}
       <h1 className="newUserTitle">Tạo mới bác sĩ</h1>
       <form className="newUserForm" onSubmit={handleCreateNewDoctor}>
         <div className="newUserItem">
@@ -106,7 +118,13 @@ export default function NewDoctor() {
             placeholder="Nguyễn Văn A"
             name="name"
             value={data.name}
-            onChange={(e) => setData({ ...data, name: e.target.value })}
+            onChange={(e) =>
+              setData({
+                ...data,
+                name: e.target.value,
+                fullname: e.target.value,
+              })
+            }
           />
         </div>
         <div className="newUserItem">

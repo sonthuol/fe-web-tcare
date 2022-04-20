@@ -35,7 +35,7 @@ const deleteUser = async (id, user) => {
 const setCurrentClinic = async (id) => {
   return await axios
     .get(
-      API_URL + "/userBelongClinc/" + id,
+      API_URL + "/userBelongClinic/" + id,
       { id: id },
       { headers: authHeader() }
     )

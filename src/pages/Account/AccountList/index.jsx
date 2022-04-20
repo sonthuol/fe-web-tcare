@@ -10,6 +10,8 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import authService from "../../../services/Auth/auth.service";
 import userService from "../../../services/User/user.service";
+import RestoreIcon from "@material-ui/icons/Restore";
+
 import "./style.css";
 
 const style = {
@@ -159,14 +161,15 @@ export default function AccountList() {
         <h1 className="clinicListTitle">Danh sách tài khoản</h1>
       </div>
       <div className="clinicListSelectedDeleteAndSearch">
-        <div className="clinicListSelectedDelete">
-          <DeleteOutlineIcon className="clinicListSelectedDeleteIcon" />
-
-          <h5>Xoá những phần đã chọn </h5>
-          {selectionModel?.map((val) => (
-            <p>{val}</p>
-          ))}
+        <div className="clinicListDeleteAndRestore">
+          <div className="clinicListSelectedRestore">
+            <Link to="/accounts/restore" className="clinicListLinkRestore">
+              <RestoreIcon className="clinicListRestoreIcon" />
+              <h5>Khôi phục</h5>
+            </Link>
+          </div>
         </div>
+
         <div className="clinicListSearch">
           <Paper className={classes.root}>
             <InputBase className={classes.input} placeholder="Tìm kiếm" />

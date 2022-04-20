@@ -11,7 +11,7 @@ function App() {
     const getCurrentUser = async () => {
       const user = await authService.getCurrentUser();
       if (user) {
-        if (user.roles[0] !== "ROLE_ROOT") {
+        if (user.roles[0] === "ROLE_ADMIN") {
           await userService.setCurrentClinic(user.id);
         }
         setCurrentUser(user);
