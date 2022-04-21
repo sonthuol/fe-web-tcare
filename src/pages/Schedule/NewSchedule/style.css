@@ -1,0 +1,21 @@
+.NewSchedule{
+    flex: 4;
+    padding: 10px;
+}
+
+.NewSchedule_Time{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.NewSchedule_Time .Time{
+    margin: 5px 5px;
+}
+
+.NewSchedule_Save {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}

@@ -72,6 +72,28 @@ export default function Sidebar(props) {
           <></>
         )}
 
+        {props.role === "ROLE_DOCTOR" ? (
+          <div className="sidebarMenu">
+            <h3 className="sidebarTitle">Quản lý lịch</h3>
+            <ul className="sidebarList">
+              <NavLink to="/schedules/create" className="sidebarLink">
+                <li className="sidebarItem">
+                  <PermIdentityIcon className="sidebarIcon" />
+                </li>
+                Quản lý lịch khám
+              </NavLink>
+              <NavLink to="/clinics" className="sidebarLink">
+                <li className="sidebarItem">
+                  <LocalHospitalIcon className="sidebarIcon" />
+                </li>
+                Quản lý lịch hẹn
+              </NavLink>
+            </ul>
+          </div>
+        ) : (
+          <></>
+        )}
+
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Notification</h3>
           <ul className="sidebarList">

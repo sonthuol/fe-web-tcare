@@ -19,6 +19,8 @@ import SpecialtyRestore from "../../pages/Specialty/SpecialtyRestore";
 import NewDoctor from "../../pages/Doctor/NewDoctor";
 import Doctor from "../../pages/Doctor/Doctor";
 import DoctorRestore from "../../pages/Doctor/DoctorRestore";
+import ScheduleList from "../../pages/Schedule/ScheduleList";
+import NewSchedule from "../../pages/Schedule/NewSchedule";
 import NoAccess from "../../pages/NoAccess";
 import { useEffect, useState } from "react";
 import authService from "../../services/Auth/auth.service";
@@ -93,7 +95,7 @@ export default function Admin() {
             component={role === "ROLE_ADMIN" ? Specialty : NoAccess}
           />
 
-          {/* Bác sĩ */}
+          {/* Admin */}
           <Route
             exact
             path="/doctors"
@@ -112,6 +114,12 @@ export default function Admin() {
           <Route
             path="/doctors/:id"
             component={role === "ROLE_ADMIN" ? Doctor : NoAccess}
+          />
+
+          {/* Quản lý lịch khám */}
+          <Route
+            path="/schedules/create"
+            component={role === "ROLE_DOCTOR" ? NewSchedule : NoAccess}
           />
         </Switch>
       </div>
