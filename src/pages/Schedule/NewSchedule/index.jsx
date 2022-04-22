@@ -1,5 +1,6 @@
 import "date-fns";
 import { React, useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -8,10 +9,12 @@ import {
 } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
 import "./style.css";
+import scheduleService from "../../../services/Schedule/schedule.service";
+import doctorService from "../../../services/Doctor/doctor.service";
 export default function NewSchedule() {
-  // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dateConvert, setdateConvert] = useState();
+  const [redirect, setRedirect] = useState(false);
   useEffect(() => {
     function dateInit() {
       var d = new Date();
@@ -23,43 +26,35 @@ export default function NewSchedule() {
   }, []);
   const time = [
     {
-      id: 1,
-      value: "8:00 - 9:00",
+      time: "8:00 - 9:00",
       status: false,
     },
     {
-      id: 2,
-      value: "9:00 - 10:00",
+      time: "9:00 - 10:00",
       status: false,
     },
     {
-      id: 3,
-      value: "10:00 - 11:00",
+      time: "10:00 - 11:00",
       status: false,
     },
     {
-      id: 4,
-      value: "11:00 - 12:00",
+      time: "11:00 - 12:00",
       status: false,
     },
     {
-      id: 5,
-      value: "13:00 - 14:00",
+      time: "13:00 - 14:00",
       status: false,
     },
     {
-      id: 6,
-      value: "14:00 - 15:00",
+      time: "14:00 - 15:00",
       status: false,
     },
     {
-      id: 7,
-      value: "15:00 - 16:00",
+      time: "15:00 - 16:00",
       status: false,
     },
     {
-      id: 8,
-      value: "16:00 - 17:00",
+      time: "16:00 - 17:00",
       status: false,
     },
   ];
@@ -92,17 +87,39 @@ export default function NewSchedule() {
     setTimeSchedule(newTime);
   };
 
-  const handleSaveTimeClick = () => {
-    console.log(dateConvert);
+  const handleSaveTimeClick = async () => {
+    const doctor = await doctorService.getCurrentDoctor();
     const timeSave = timeSchedule.filter((item) => item.status !== false);
     if (timeSave.length > 0 === false) {
       alert("Chưa chọn được lịch khám");
     } else {
       console.log(timeSchedule);
+      timeSchedule.map((dayTime) => {
+        const dataSchedule = {
+          ...dayTime,
+          day: dateConvert,
+          doctorId: doctor.id,
+        };
+        scheduleService.createNewSchedule(dataSchedule).then(
+          () => {
+            setRedirect(true);
+          },
+          (error) => {
+            const resMessage =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+            console.log(resMessage);
+          }
+        );
+      });
     }
   };
   return (
     <div className="NewSchedule">
+      {redirect && <Redirect to="/schedules" />}
       <div className="NewSchedule_Date">
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justifyContent="space-around">
@@ -131,7 +148,7 @@ export default function NewSchedule() {
             className="Time"
             onClick={(e) => handleTimeClick(time, index)}
           >
-            {time.value}
+            {time.time}
           </Button>
         ))}
       </div>

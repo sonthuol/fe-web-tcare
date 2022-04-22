@@ -13,12 +13,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: rgb(238, 243, 247);
+    border-bottom: 5px solid #555;
 }
 
 .logo{
     font-weight: bold;
     font-size: 30px;
-    color: darkblue;
+    color: #555;
     cursor: pointer;
     text-decoration: none;
 }

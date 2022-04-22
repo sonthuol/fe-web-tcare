@@ -121,6 +121,11 @@ export default function Admin() {
             path="/schedules/create"
             component={role === "ROLE_DOCTOR" ? NewSchedule : NoAccess}
           />
+
+          <Route
+            path="/schedules"
+            component={role === "ROLE_DOCTOR" ? ScheduleList : NoAccess}
+          />
         </Switch>
       </div>
     </div>
