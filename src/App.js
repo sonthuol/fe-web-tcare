@@ -14,6 +14,9 @@ function App() {
         if (user.roles[0] === "ROLE_ADMIN") {
           await userService.setCurrentClinic(user.id);
         }
+        if (user.roles[0] === "ROLE_DOCTOR") {
+          await userService.setCurrentDoctor(user.id);
+        }
         setCurrentUser(user);
       }
     };

@@ -45,6 +45,19 @@ const setCurrentClinic = async (id) => {
     });
 };
 
+const setCurrentDoctor = async (id) => {
+  return await axios
+    .get(
+      API_URL + "/userBelongDoctor/" + id,
+      { id: id },
+      { headers: authHeader() }
+    )
+    .then((response) => {
+      console.log(response);
+      localStorage.setItem("doctor", JSON.stringify(response.data.data[0]));
+    });
+};
+
 export default {
   getAllUser,
   userDetails,
@@ -52,4 +65,5 @@ export default {
   deleteUser,
   changeStatus,
   setCurrentClinic,
+  setCurrentDoctor,
 };

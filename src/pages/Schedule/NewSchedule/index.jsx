@@ -98,7 +98,7 @@ export default function NewSchedule() {
     if (timeSave.length > 0 === false) {
       alert("Chưa chọn được lịch khám");
     } else {
-      console.log(timeSave);
+      console.log(timeSchedule);
     }
   };
   return (
