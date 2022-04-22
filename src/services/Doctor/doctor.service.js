@@ -56,6 +56,23 @@ const deleteRestore = async (id) => {
   );
 };
 
+const setCurrentClinic = async (id) => {
+  return await axios
+    .get(
+      API_URL + "/doctorBelongClinic/" + id,
+      { id: id },
+      { headers: authHeader() }
+    )
+    .then((response) => {
+      console.log(response);
+      localStorage.setItem("clinic", JSON.stringify(response.data.data[0]));
+    });
+};
+
+const getCurrentDoctor = () => {
+  return JSON.parse(localStorage.getItem("doctor"));
+};
+
 export default {
   createNewDoctor,
   getAllDoctors,
@@ -66,4 +83,6 @@ export default {
   getAllDoctorRestore,
   restore,
   deleteRestore,
+  setCurrentClinic,
+  getCurrentDoctor,
 };
