@@ -40,7 +40,6 @@ const setCurrentClinic = async (id) => {
       { headers: authHeader() }
     )
     .then((response) => {
-      console.log(response);
       localStorage.setItem("clinic", JSON.stringify(response.data.data[0]));
     });
 };
@@ -53,7 +52,6 @@ const setCurrentDoctor = async (id) => {
       { headers: authHeader() }
     )
     .then((response) => {
-      console.log(response);
       localStorage.setItem("doctor", JSON.stringify(response.data.data[0]));
     });
 };

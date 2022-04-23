@@ -15,22 +15,13 @@ export default function NewSchedule() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dateConvert, setdateConvert] = useState();
   const [redirect, setRedirect] = useState(false);
-  useEffect(() => {
-    function dateInit() {
-      var d = new Date();
-      var datestring =
-        d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-      setdateConvert(datestring);
-    }
-    dateInit();
-  }, []);
   const time = [
     {
-      time: "8:00 - 9:00",
+      time: "08:00 - 9:00",
       status: false,
     },
     {
-      time: "9:00 - 10:00",
+      time: "09:00 - 10:00",
       status: false,
     },
     {
@@ -59,13 +50,29 @@ export default function NewSchedule() {
     },
   ];
   const [timeSchedule, setTimeSchedule] = useState(time);
+  useEffect(() => {
+    function dateInit() {
+      var datestring = coverDateISO(new Date());
+      setdateConvert(datestring);
+    }
 
-  const handleDateChange = (dateISO) => {
-    const newTime = [...timeSchedule];
-    timeSchedule.map((item, index) => (newTime[index].status = false));
-    setTimeSchedule(newTime);
-    setSelectedDate(dateISO);
+    async function getScheduleByDoctorAndDay() {
+      var day = coverDateISO(selectedDate);
+      const doctor = await doctorService.getCurrentDoctor();
+      const schedule = await scheduleService.scheduleByDoctorAndDay(
+        doctor.id,
+        day
+      );
+      const schedules = schedule.data.data;
+      if (schedules.length > 0) {
+        setTimeSchedule(schedules);
+      }
+    }
+    dateInit();
+    getScheduleByDoctorAndDay();
+  }, []);
 
+  const coverDateISO = (dateISO) => {
     let date = new Date(dateISO);
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
@@ -77,8 +84,26 @@ export default function NewSchedule() {
     if (month < 10) {
       month = "0" + month;
     }
-    let dateUTC = dt + "/" + month + "/" + year;
+    return dt + "/" + month + "/" + year;
+  };
+
+  const handleDateChange = async (dateISO) => {
+    const newTime = [...timeSchedule];
+    timeSchedule.map((item, index) => (newTime[index].status = false));
+    setTimeSchedule(newTime);
+    setSelectedDate(dateISO);
+    let dateUTC = coverDateISO(dateISO);
+
     setdateConvert(dateUTC);
+    const doctor = await doctorService.getCurrentDoctor();
+    const schedule = await scheduleService.scheduleByDoctorAndDay(
+      doctor.id,
+      dateUTC
+    );
+    const schedules = schedule.data.data;
+    if (schedules.length > 0) {
+      setTimeSchedule(schedules);
+    }
   };
 
   const handleTimeClick = (time, index) => {
@@ -93,7 +118,6 @@ export default function NewSchedule() {
     if (timeSave.length > 0 === false) {
       alert("Chưa chọn được lịch khám");
     } else {
-      console.log(timeSchedule);
       timeSchedule.map((dayTime) => {
         const dataSchedule = {
           ...dayTime,
@@ -111,7 +135,6 @@ export default function NewSchedule() {
                 error.response.data.message) ||
               error.message ||
               error.toString();
-            console.log(resMessage);
           }
         );
       });

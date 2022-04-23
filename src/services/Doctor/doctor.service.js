@@ -64,7 +64,6 @@ const setCurrentClinic = async (id) => {
       { headers: authHeader() }
     )
     .then((response) => {
-      console.log(response);
       localStorage.setItem("clinic", JSON.stringify(response.data.data[0]));
     });
 };
