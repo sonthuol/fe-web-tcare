@@ -15,6 +15,9 @@ export default function NewSchedule() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dateConvert, setdateConvert] = useState();
   const [redirect, setRedirect] = useState(false);
+  const [buttonDisable, setButtonDisable] = useState(true);
+  const [buttonSave, setButtonSave] = useState(true);
+  const [buttonUpdate, setButtonUpdate] = useState(false);
   const time = [
     {
       time: "08:00 - 9:00",
@@ -49,7 +52,15 @@ export default function NewSchedule() {
       status: false,
     },
   ];
+
+  // const timeid = time.map((item, index) => {
+  //   return {
+  //     ...item,
+  //     ...id[index],
+  //   };
+  // });
   const [timeSchedule, setTimeSchedule] = useState(time);
+  // const [timeScheduleId, setTimeScheduleId] = useState();
   useEffect(() => {
     function dateInit() {
       var datestring = coverDateISO(new Date());
@@ -66,6 +77,11 @@ export default function NewSchedule() {
       const schedules = schedule.data.data;
       if (schedules.length > 0) {
         setTimeSchedule(schedules);
+        setButtonUpdate(true);
+        setButtonSave(false);
+      } else {
+        setButtonUpdate(false);
+        setButtonSave(true);
       }
     }
     dateInit();
@@ -88,12 +104,21 @@ export default function NewSchedule() {
   };
 
   const handleDateChange = async (dateISO) => {
+    //Compare day
+    const currentDay = new Date();
+    let currentDayUTC = coverDateISO(currentDay);
+    const selectedDay = dateISO;
+
+    //Khi chuyển ngày thì lấy lại những time và set lại status bằng false
     const newTime = [...timeSchedule];
     timeSchedule.map((item, index) => (newTime[index].status = false));
     setTimeSchedule(newTime);
     setSelectedDate(dateISO);
     let dateUTC = coverDateISO(dateISO);
-
+    //Set state button để ẩn hiển button save
+    setButtonDisable(
+      currentDay.getTime() <= selectedDay.getTime() || currentDayUTC === dateUTC
+    );
     setdateConvert(dateUTC);
     const doctor = await doctorService.getCurrentDoctor();
     const schedule = await scheduleService.scheduleByDoctorAndDay(
@@ -103,6 +128,11 @@ export default function NewSchedule() {
     const schedules = schedule.data.data;
     if (schedules.length > 0) {
       setTimeSchedule(schedules);
+      setButtonUpdate(true);
+      setButtonSave(false);
+    } else {
+      setButtonUpdate(false);
+      setButtonSave(true);
     }
   };
 
@@ -140,9 +170,30 @@ export default function NewSchedule() {
       });
     }
   };
+
+  const handleUpdateTimeClick = async () => {
+    const doctor = await doctorService.getCurrentDoctor();
+    const schedule = await scheduleService.scheduleByDoctorAndDayGetId(
+      doctor.id,
+      coverDateISO(selectedDate)
+    );
+    const schedulesId = schedule.data.data;
+    // console.log(schedulesId);
+    const scheduleUpdate = timeSchedule.map((item, index) => {
+      return {
+        ...item,
+        ...schedulesId[index],
+      };
+    });
+
+    //Lop imte of schedule to update schedule in database
+    scheduleUpdate.map(async (item) => {
+      await scheduleService.updateSchedule(item.id, item);
+    });
+  };
   return (
     <div className="NewSchedule">
-      {redirect && <Redirect to="/schedules" />}
+      {redirect && <Redirect to="/schedules/create" />}
       <div className="NewSchedule_Date">
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justifyContent="space-around">
@@ -176,13 +227,26 @@ export default function NewSchedule() {
         ))}
       </div>
       <div className="NewSchedule_Save">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSaveTimeClick}
-        >
-          Lưu
-        </Button>
+        {buttonSave && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSaveTimeClick}
+            disabled={!buttonDisable}
+          >
+            Lưu
+          </Button>
+        )}
+        {buttonUpdate && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdateTimeClick}
+            disabled={!buttonDisable}
+          >
+            Cập nhật
+          </Button>
+        )}
       </div>
     </div>
   );

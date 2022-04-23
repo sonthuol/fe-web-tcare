@@ -14,7 +14,21 @@ const scheduleByDoctorAndDay = async (doctorId, day) => {
   );
 };
 
+const scheduleByDoctorAndDayGetId = async (doctorId, day) => {
+  return await axios.get(
+    API_URL + "/getId/" + doctorId + "?day=" + day,
+    { id: doctorId },
+    { headers: authHeader() }
+  );
+};
+
+const updateSchedule = async (id, data) => {
+  return await axios.put(API_URL + "/" + id, data, { headers: authHeader() });
+};
+
 export default {
   createNewSchedule,
   scheduleByDoctorAndDay,
+  scheduleByDoctorAndDayGetId,
+  updateSchedule,
 };
