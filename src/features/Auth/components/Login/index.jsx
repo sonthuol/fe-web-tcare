@@ -8,10 +8,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Alert from "@material-ui/lab/Alert";
 import React, { useState } from "react";
 import authService from "../../../../services/Auth/auth.service";
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    position: "relative",
+  },
   paper: {
     padding: 20,
     width: 280,
@@ -30,17 +33,26 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: "10px 0",
   },
+  tost: {
+    position: "absolute",
+    right: 0,
+  },
 }));
 
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorStatus, setErrorStatus] = useState(false);
+  const [successStatus, setSuccessStatus] = useState(false);
+  const [message, setMessage] = useState("");
 
   const classes = useStyles();
   const handleLogin = (e) => {
     e.preventDefault();
     authService.login(username, password).then(
       () => {
+        setSuccessStatus(true);
+        setMessage("Đăng nhập thành công");
         window.location.reload();
       },
       (error) => {
@@ -51,11 +63,23 @@ function Login(props) {
           error.message ||
           error.toString();
         console.log(resMessage);
+        setMessage(resMessage);
+        setErrorStatus(true);
       }
     );
   };
   return (
     <Grid className={classes.root}>
+      {errorStatus && (
+        <div className={classes.tost}>
+          <Alert severity="error">{message}</Alert>
+        </div>
+      )}
+      {successStatus && (
+        <div className={classes.tost}>
+          <Alert severity="success">{message}</Alert>
+        </div>
+      )}
       <Paper elevation={0} className={classes.paper}>
         <Grid align="center">
           <Avatar className={classes.avatar}>
