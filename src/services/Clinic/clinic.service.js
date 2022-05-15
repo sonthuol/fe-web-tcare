@@ -15,7 +15,9 @@ const createNewClinic = async (data) => {
 };
 
 const updateClinic = async (id, data) => {
-  return await axios.put(API_URL + "/" + id, data, { headers: authHeader() });
+  return await axios.put(API_URL + "/" + id, data, {
+    headers: authHeader(),
+  });
 };
 
 const changeStatus = async (id, status, userId) => {

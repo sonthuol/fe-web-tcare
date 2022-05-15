@@ -16,6 +16,7 @@ import authService from "../../../services/Auth/auth.service";
 export default function Clinic() {
   const [clinic, setClinic] = useState([]);
   const [redirect, setRedirect] = useState(false);
+  const [file, setFile] = useState();
 
   let { id } = useParams();
   useEffect(() => {
@@ -26,11 +27,28 @@ export default function Clinic() {
     feachClinic();
   }, []);
 
+  const saveFile = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const handleUpdateClinic = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("name", clinic.name);
+    formData.append("phoneNumber", clinic.phoneNumber);
+    formData.append("address", clinic.address);
+    formData.append("image", clinic.image);
+    formData.append("description", clinic.description);
+    formData.append("status", clinic.status);
+    formData.append("isDelete", clinic.isDelete);
+    formData.append("addBy", clinic.addBy);
+    formData.append("updateBy", clinic.updateBy);
+    formData.append("deleteBy", clinic.deleteBy);
+
     const user = await authService.getCurrentUser();
     clinic.updateBy = user.id;
-    await clinicService.updateClinic(id, clinic).then(
+    await clinicService.updateClinic(id, formData).then(
       () => {
         setRedirect(true);
       },
@@ -96,7 +114,11 @@ export default function Clinic() {
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Chỉnh sửa</span>
-          <form className="userUpdateForm" onSubmit={handleUpdateClinic}>
+          <form
+            className="userUpdateForm"
+            onSubmit={handleUpdateClinic}
+            encType="multipart/form-data"
+          >
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
                 <label>Tên phòng khám</label>
@@ -198,7 +220,12 @@ export default function Clinic() {
                 <label htmlFor="file">
                   <Publish className="userUpdateIcon" />
                 </label>
-                <input type="file" id="file" style={{ display: "none" }} />
+                <input
+                  type="file"
+                  id="file"
+                  onChange={(e) => saveFile(e)}
+                  style={{ display: "none" }}
+                />
               </div>
               <button type="submit" className="userUpdateButton">
                 Cập nhật
