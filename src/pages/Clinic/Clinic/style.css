@@ -1,15 +1,15 @@
-.user {
+.clinic {
     flex: 4;
     padding: 20px;
   }
   
-  .userTitleContainer {
+  .clinicTitleContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
   
-  .userAddButton {
+  .clinicAddButton {
     width: 80px;
     border: none;
     padding: 5px;
@@ -20,19 +20,19 @@
     font-size: 16px;
   }
   
-  .userContainer {
+  .clinicContainer {
     display: flex;
     margin-top: 20px;
   }
   
-  .userShow {
+  .clinicShow {
     flex: 1;
     padding: 20px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   }
   
-  .userUpdate {
+  .clinicUpdate {
     flex: 2;
     padding: 20px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -40,110 +40,110 @@
     margin-left: 20px;
   }
   
-  .userShowTop {
+  .clinicShowTop {
     display: flex;
     align-items: center;
   }
   
-  .userShowImg {
+  .clinicShowImg {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
   }
   
-  .userShowTopTitle {
+  .clinicShowTopTitle {
     display: flex;
     flex-direction: column;
     margin-left: 20px;
   }
   
-  .userShowUsername {
+  .clinicShowUsername {
     font-weight: 600;
   }
   
-  .userShowUserTitle {
+  .clinicShowUserTitle {
     font-weight: 300;
   }
   
-  .userShowBottom{
+  .clinicShowBottom{
       margin-top: 20px;
   }
   
-  .userShowTitle {
+  .clinicShowTitle {
     font-size: 14px;
     font-weight: 600;
     color: rgb(175, 170, 170);
   }
   
-  .userShowInfo{
+  .clinicShowInfo{
       display: flex;
       align-items: center;
       margin: 20px 0px;
       color: #444;
   }
   
-  .userShowIcon{
+  .clinicShowIcon{
       font-size: 16px !important;
   }
   
-  .userShowInfoTitle{
+  .clinicShowInfoTitle{
       margin-left: 10px;
   }
   
-  .userUpdateTitle{
+  .clinicUpdateTitle{
       font-size: 24px;
       font-weight: 600;
   }
   
-  .userUpdateForm{
+  .clinicUpdateForm{
       display: flex;
       justify-content: space-between;
       margin-top: 20px;
   }
   
-  .userUpdateItem{
+  .clinicUpdateItem{
       display: flex;
       flex-direction: column;
       margin-top: 10px;
   }
   
-  .userUpdateItem>label{
+  .clinicUpdateItem>label{
       margin-bottom: 5px;
       font-size: 14px;
   }
   
-  .userUpdateInput{
+  .clinicUpdateInput{
       border: none;
       width: 250px;
       height: 30px;
       border-bottom: 1px solid gray;
   }
   
-  .userUpdateRight{
+  .clinicUpdateRight{
       display: flex;
       flex-direction: column;
       justify-content: space-between;
   }
   
-  .userUpdateUpload{
+  .clinicUpdateUpload{
       display: flex;
       align-items: center;
   }
   
-  .userUpdateImg{
-      width: 100px;
-      height: 100px;
+  .clinicUpdateImg{
+      width: 300px;
+      height: 180px;
       border-radius: 10px;
       object-fit: cover;
       margin-right: 20px;
   }
   
-  .userUpdateIcon{
+  .clinicUpdateIcon{
       cursor: pointer;
   }
   
-  .userUpdateButton{
+  .clinicUpdateButton{
       border-radius: 5px;
       border: none;
       padding: 5px;

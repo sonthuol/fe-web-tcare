@@ -24,6 +24,8 @@ export default function NewClinic() {
   };
   const [data, setData] = useState(initialValue);
   const [redirect, setRedirect] = useState(false);
+  const [file, setFile] = useState();
+
   useEffect(() => {
     const user = authService.getCurrentUser();
     if (user) {
@@ -33,6 +35,10 @@ export default function NewClinic() {
       });
     }
   }, []);
+
+  const saveFile = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   const handleCreateNewClinic = (e) => {
     e.preventDefault();
@@ -45,7 +51,20 @@ export default function NewClinic() {
       data.address,
       data.phoneNumber
     );
-    clinicService.createNewClinic(data).then(
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("name", data.name);
+    formData.append("username", data.username);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("address", data.address);
+    formData.append("image", data.image);
+    formData.append("description", data.description);
+    formData.append("status", data.status);
+    formData.append("isDelete", data.isDelete);
+    formData.append("addBy", data.addBy);
+    formData.append("updateBy", data.updateBy);
+    formData.append("deleteBy", data.deleteBy);
+    clinicService.createNewClinic(formData).then(
       () => {
         setRedirect(true);
       },
@@ -147,6 +166,10 @@ export default function NewClinic() {
             <option value="1">Hiển thị</option>
             <option value="0">Ẩn</option>
           </select>
+        </div>
+        <div className="newUserItem">
+          <label>Hình ảnh phòng khám</label>
+          <input type="file" onChange={(e) => saveFile(e)} />
         </div>
         <div className="newUserItem">
           <label>Mô tả phòng khám</label>

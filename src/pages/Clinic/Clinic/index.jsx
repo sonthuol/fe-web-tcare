@@ -65,69 +65,65 @@ export default function Clinic() {
   };
 
   return (
-    <div className="user">
+    <div className="clinic">
       {redirect && <Redirect to="/clinics" />}
 
-      <div className="userTitleContainer">
-        <h1 className="userTitle">Cập nhật phòng khám</h1>
+      <div className="clinicTitleContainer">
+        <h1 className="clinicTitle">Cập nhật phòng khám</h1>
         <Link to="/clinics/create">
           <button className="clinicListAddButton">Tạo mới</button>
         </Link>
       </div>
-      <div className="userContainer">
-        <div className="userShow">
-          <div className="userShowTop">
-            <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="userShowImg"
-            />
-            <div className="userShowTopTitle">
-              <span className="userShowUsername">{clinic.name}</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+      <div className="clinicContainer">
+        <div className="clinicShow">
+          <div className="clinicShowTop">
+            <img src={clinic.image} alt="" className="clinicShowImg" />
+            <div className="clinicShowTopTitle">
+              <span className="clinicShowUsername">{clinic.name}</span>
+              <span className="clinicShowUserTitle">Software Engineer</span>
             </div>
           </div>
-          <div className="userShowBottom">
-            <span className="userShowTitle">Chi tiết phòng khám</span>
-            <div className="userShowInfo">
-              <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">{clinic.name}</span>
+          <div className="clinicShowBottom">
+            <span className="clinicShowTitle">Chi tiết phòng khám</span>
+            <div className="clinicShowInfo">
+              <PermIdentity className="clinicShowIcon" />
+              <span className="clinicShowInfoTitle">{clinic.name}</span>
             </div>
-            <div className="userShowInfo">
-              <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">10.12.1999</span>
+            <div className="clinicShowInfo">
+              <CalendarToday className="clinicShowIcon" />
+              <span className="clinicShowInfoTitle">10.12.1999</span>
             </div>
-            <span className="userShowTitle">Contact Details</span>
-            <div className="userShowInfo">
-              <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">{clinic.phoneNumber}</span>
+            <span className="clinicShowTitle">Contact Details</span>
+            <div className="clinicShowInfo">
+              <PhoneAndroid className="clinicShowIcon" />
+              <span className="clinicShowInfoTitle">{clinic.phoneNumber}</span>
             </div>
-            <div className="userShowInfo">
-              <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">{clinic.address}</span>
+            <div className="clinicShowInfo">
+              <MailOutline className="clinicShowIcon" />
+              <span className="clinicShowInfoTitle">{clinic.address}</span>
             </div>
-            <div className="userShowInfo">
-              <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | USA</span>
+            <div className="clinicShowInfo">
+              <LocationSearching className="clinicShowIcon" />
+              <span className="clinicShowInfoTitle">New York | USA</span>
             </div>
           </div>
         </div>
-        <div className="userUpdate">
-          <span className="userUpdateTitle">Chỉnh sửa</span>
+        <div className="clinicUpdate">
+          <span className="clinicUpdateTitle">Chỉnh sửa</span>
           <form
-            className="userUpdateForm"
+            className="clinicUpdateForm"
             onSubmit={handleUpdateClinic}
             encType="multipart/form-data"
           >
-            <div className="userUpdateLeft">
-              <div className="userUpdateItem">
+            <div className="clinicUpdateLeft">
+              <div className="clinicUpdateItem">
                 <label>Tên phòng khám</label>
                 <input
                   type="text"
                   placeholder="Tên phòng khám"
                   value={clinic.name || ""}
                   name="name"
-                  className="userUpdateInput"
+                  className="clinicUpdateInput"
                   onChange={(e) =>
                     setClinic({
                       ...clinic,
@@ -136,13 +132,13 @@ export default function Clinic() {
                   }
                 />
               </div>
-              <div className="userUpdateItem">
+              <div className="clinicUpdateItem">
                 <label>Số điện thoại</label>
                 <input
                   type="number"
                   placeholder="Số điện thoại"
                   value={clinic.phoneNumber || ""}
-                  className="userUpdateInput"
+                  className="clinicUpdateInput"
                   name="phoneNumber"
                   onChange={(e) =>
                     setClinic({
@@ -152,14 +148,14 @@ export default function Clinic() {
                   }
                 />
               </div>
-              <div className="userUpdateItem">
+              <div className="clinicUpdateItem">
                 <label>Địa chỉ</label>
                 <input
                   type="text"
                   placeholder="Địa chỉ"
                   value={clinic.address || ""}
                   name="address"
-                  className="userUpdateInput"
+                  className="clinicUpdateInput"
                   onChange={(e) =>
                     setClinic({
                       ...clinic,
@@ -168,10 +164,10 @@ export default function Clinic() {
                   }
                 />
               </div>
-              <div className="userUpdateItem">
+              <div className="clinicUpdateItem">
                 <label>Trạng thái</label>
                 <select
-                  className="userUpdateInput"
+                  className="clinicUpdateInput"
                   defaultValue={clinic.stauts}
                   onChange={(e) =>
                     setClinic({
@@ -193,13 +189,13 @@ export default function Clinic() {
                   )}
                 </select>
               </div>
-              <div className="userUpdateItem">
+              <div className="clinicUpdateItem">
                 <label>Mô tả</label>
                 <input
                   type="text"
                   placeholder="Mô tả phòng khám"
                   value={clinic.description || ""}
-                  className="userUpdateInput"
+                  className="clinicUpdateInput"
                   name="description"
                   onChange={(e) =>
                     setClinic({
@@ -210,15 +206,11 @@ export default function Clinic() {
                 />
               </div>
             </div>
-            <div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <img
-                  className="userUpdateImg"
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
-                />
+            <div className="clinicUpdateRight">
+              <div className="clinicUpdateUpload">
+                <img className="clinicUpdateImg" src={clinic.image} alt="" />
                 <label htmlFor="file">
-                  <Publish className="userUpdateIcon" />
+                  <Publish className="clinicUpdateIcon" />
                 </label>
                 <input
                   type="file"
@@ -227,7 +219,7 @@ export default function Clinic() {
                   style={{ display: "none" }}
                 />
               </div>
-              <button type="submit" className="userUpdateButton">
+              <button type="submit" className="clinicUpdateButton">
                 Cập nhật
               </button>
             </div>
