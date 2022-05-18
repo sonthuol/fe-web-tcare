@@ -170,6 +170,7 @@ export default function NewClinic() {
         <div className="newUserItem">
           <label>Hình ảnh phòng khám</label>
           <input type="file" onChange={(e) => saveFile(e)} />
+          {file && <img src={URL.createObjectURL(file)} />}
         </div>
         <div className="newUserItem">
           <label>Mô tả phòng khám</label>
