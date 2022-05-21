@@ -107,7 +107,7 @@ export default function NewClinic() {
         <div className="newUserItem">
           <label>Mật khẩu</label>
           <input
-            type="text"
+            type="password"
             placeholder="Mật khẩu"
             name="password"
             value={data.password}
