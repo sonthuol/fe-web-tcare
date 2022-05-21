@@ -127,7 +127,6 @@ export default function AccountList() {
     async function feachUser() {
       let user = await userService.getAllUser();
       setUserList(user.data.data);
-      console.log(user);
     }
     feachUser();
   }, []);
