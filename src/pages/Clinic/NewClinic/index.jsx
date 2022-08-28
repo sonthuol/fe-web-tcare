@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import authService from "../../../services/Auth/auth.service";
 import clinicService from "../../../services/Clinic/clinic.service";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./style.css";
 
 export default function NewClinic() {
@@ -79,6 +81,11 @@ export default function NewClinic() {
       }
     );
   };
+
+  const inputHandler = (event, editor) => {
+    setData({ ...data, description: editor.getData() });
+  };
+
   return (
     <div className="newUser">
       {redirect && <Redirect to="/clinics" />}
@@ -112,6 +119,7 @@ export default function NewClinic() {
             name="password"
             value={data.password}
             onChange={(e) => setData({ ...data, password: e.target.value })}
+            autoComplete="on"
           />
         </div>
         <div className="newUserItem">
@@ -172,17 +180,16 @@ export default function NewClinic() {
           <input type="file" onChange={(e) => saveFile(e)} />
           {file && <img src={URL.createObjectURL(file)} />}
         </div>
-        <div className="newUserItem">
-          <label>Mô tả phòng khám</label>
-          <textarea
-            rows="4"
-            onChange={(e) => setData({ ...data, description: e.target.value })}
-            name="description"
-            cols="50"
-            value={data.description}
-          ></textarea>
-        </div>
 
+        <div>
+          <label>Mô tả chi tiết</label>
+          <CKEditor
+            className="mt-3 wrap-ckeditor"
+            editor={ClassicEditor}
+            id="ckeditorClinic"
+            onChange={inputHandler}
+          />
+        </div>
         <button type="submit" className="newUserButton">
           Tạo mới
         </button>

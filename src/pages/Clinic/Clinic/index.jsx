@@ -10,6 +10,8 @@ import { Link, Redirect } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import clinicService from "../../../services/Clinic/clinic.service";
 import { useParams } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./style.css";
 import authService from "../../../services/Auth/auth.service";
 
@@ -189,26 +191,14 @@ export default function Clinic() {
                   )}
                 </select>
               </div>
-              <div className="clinicUpdateItem">
-                <label>Mô tả</label>
-                <input
-                  type="text"
-                  placeholder="Mô tả phòng khám"
-                  value={clinic.description || ""}
-                  className="clinicUpdateInput"
-                  name="description"
-                  onChange={(e) =>
-                    setClinic({
-                      ...clinic,
-                      description: e.target.value,
-                    })
-                  }
-                />
-              </div>
             </div>
             <div className="clinicUpdateRight">
               <div className="clinicUpdateUpload">
-                <img className="clinicUpdateImg" src={clinic.image} alt="" />
+                <img
+                  className="clinicUpdateImg"
+                  src={clinic.image}
+                  alt={clinic.image}
+                />
                 <label htmlFor="file">
                   <Publish className="clinicUpdateIcon" />
                 </label>
@@ -226,6 +216,18 @@ export default function Clinic() {
           </form>
         </div>
       </div>
+      {/* <CKEditor
+        className="mt-3 wrap-ckeditor"
+        editor={ClassicEditor}
+        data={clinic.description}
+        id="ckeditorClinic"
+        onChange={(e, editor) =>
+          setClinic({
+            ...clinic,
+            description: editor.getData(),
+          })
+        }
+      /> */}
     </div>
   );
 }
