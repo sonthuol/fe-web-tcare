@@ -33,6 +33,7 @@ export default function NewDoctor() {
   const [data, setData] = useState(initialValue);
   const [specialtyList, setSpecialtyList] = useState([]);
   const [redirect, setRedirect] = useState(false);
+  const [file, setFile] = useState();
 
   useEffect(() => {
     async function init() {
@@ -47,7 +48,7 @@ export default function NewDoctor() {
       }
     }
 
-    async function feachSpecialty() {
+    async function fetchSpecialty() {
       const clinic = await clinicService.getCurrentClinic();
       let specialty = await specialtyService.getAllSpecialties();
       specialty = specialty.data.data.filter(
@@ -57,8 +58,12 @@ export default function NewDoctor() {
     }
 
     init();
-    feachSpecialty();
+    fetchSpecialty();
   }, []);
+
+  const saveFile = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   const handleCreateNewDoctor = (e) => {
     e.preventDefault();
@@ -71,7 +76,34 @@ export default function NewDoctor() {
       data.address,
       data.phoneNumber
     );
-    doctorService.createNewDoctor(data).then(
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("name", data.name);
+    formData.append("birthday", data.birthday);
+    formData.append("age", data.age);
+    formData.append("gender", data.gender);
+    formData.append("email", data.email);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("address", data.address);
+    formData.append("image", data.image);
+    formData.append("descriptionShort", data.descriptionShort);
+    formData.append("description", data.description);
+    formData.append("isActive", data.isActive);
+    formData.append("isDelete", data.isDelete);
+    formData.append("addBy", data.addBy);
+    formData.append("updateBy", data.updateBy);
+    formData.append("deleteBy", data.deleteBy);
+    formData.append("clinicId", data.clinicId);
+    formData.append("specialties", data.specialties);
+    formData.append("username", data.username);
+    formData.append("password", data.password);
+    formData.append("roles", data.roles);
+
+    console.log("====================================");
+    let formObject = Object.fromEntries(formData.entries());
+    console.log(formObject);
+    console.log("====================================");
+    doctorService.createNewDoctor(formObject).then(
       () => {
         setRedirect(true);
       },
@@ -210,12 +242,8 @@ export default function NewDoctor() {
         </div>
         <div className="newUserItem">
           <label>Hình ảnh</label>
-          <input
-            type="text"
-            name="image"
-            value={data.image}
-            onChange={(e) => setData({ ...data, image: e.target.value })}
-          />
+          <input type="file" onChange={(e) => saveFile(e)} />
+          {file && <img src={URL.createObjectURL(file)} />}
         </div>
         <div className="newUserItem">
           <label>Trạng thái</label>
