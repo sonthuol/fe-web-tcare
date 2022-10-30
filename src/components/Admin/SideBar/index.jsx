@@ -82,7 +82,7 @@ export default function Sidebar(props) {
                 </li>
                 Quản lý lịch khám
               </NavLink>
-              <NavLink to="/clinics" className="sidebarLink">
+              <NavLink to="/appointment" className="sidebarLink">
                 <li className="sidebarItem">
                   <LocalHospitalIcon className="sidebarIcon" />
                 </li>
