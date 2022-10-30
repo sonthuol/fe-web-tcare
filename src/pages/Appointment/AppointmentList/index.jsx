@@ -67,7 +67,7 @@ export default function AppointmentList() {
     {
       field: "name",
       headerName: "Tên bệnh nhân",
-      width: 240,
+      width: 200,
       renderCell: (params) => {
         let name;
         params.row.medical_records.map((medical_record) => {
@@ -105,6 +105,24 @@ export default function AppointmentList() {
           message = "Đã xác nhận";
         } else message = "Đã khám";
         return <>{message}</>;
+      },
+    },
+    {
+      field: "action",
+      headerName: "Hành động",
+      width: 150,
+      renderCell: (params) => {
+        let id;
+        params.row.medical_records.map((medical_record) => {
+          id = medical_record.id;
+        });
+        return (
+          <>
+            <Link to={"/appointment/" + id}>
+              <button className="clinicListEdit">Xem chi tiết</button>
+            </Link>
+          </>
+        );
       },
     },
   ];

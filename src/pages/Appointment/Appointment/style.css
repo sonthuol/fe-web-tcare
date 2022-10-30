@@ -1,0 +1,154 @@
+.clinic {
+    flex: 4;
+    padding: 20px;
+  }
+  
+  .clinicTitleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .clinicAddButton {
+    width: 80px;
+    border: none;
+    padding: 5px;
+    background-color: teal;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .clinicContainer {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .clinicShow {
+    flex: 2;
+    padding: 20px;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  }
+  
+  .clinicUpdate {
+    flex: 2;
+    padding: 20px;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    margin-left: 20px;
+  }
+  
+  .clinicShowTop {
+    display: flex;
+    align-items: center;
+  }
+  
+  .clinicShowImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .clinicShowTopTitle {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+  }
+  
+  .clinicShowUsername {
+    font-weight: 600;
+  }
+  
+  .clinicShowUserTitle {
+    font-weight: 300;
+  }
+  
+  .clinicShowBottom{
+      margin-top: 20px;
+  }
+  
+  .clinicShowTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(175, 170, 170);
+  }
+  
+  .clinicShowInfo{
+      display: flex;
+      align-items: center;
+      margin: 20px 0px;
+      color: #444;
+  }
+  
+  .clinicShowIcon{
+      font-size: 16px !important;
+  }
+  
+  .clinicShowInfoTitle{
+      margin-left: 10px;
+  }
+  
+  .clinicUpdateTitle{
+      font-size: 24px;
+      font-weight: 600;
+  }
+  
+  .clinicUpdateForm{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+  }
+  
+  .clinicUpdateItem{
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+  }
+  
+  .clinicUpdateItem>label{
+      margin-bottom: 5px;
+      font-size: 14px;
+  }
+  
+  .clinicUpdateInput{
+      border: none;
+      width: 250px;
+      height: 30px;
+      border-bottom: 1px solid gray;
+  }
+  
+  .clinicUpdateRight{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  }
+  
+  .clinicUpdateUpload{
+      display: flex;
+      align-items: center;
+  }
+  
+  .clinicUpdateImg{
+      width: 300px;
+      height: 180px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-right: 20px;
+  }
+  
+  .clinicUpdateIcon{
+      cursor: pointer;
+  }
+  
+  .clinicUpdateButton{
+      border-radius: 5px;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+      background-color: darkblue;
+      color: white;
+      font-weight: 600;
+  }

@@ -21,6 +21,7 @@ import Doctor from "../../pages/Doctor/Doctor";
 import DoctorRestore from "../../pages/Doctor/DoctorRestore";
 import ScheduleList from "../../pages/Schedule/ScheduleList";
 import AppointmentList from "../../pages/Appointment/AppointmentList";
+import Appointment from "../../pages/Appointment/Appointment";
 import NewSchedule from "../../pages/Schedule/NewSchedule";
 import NoAccess from "../../pages/NoAccess";
 import { useEffect, useState } from "react";
@@ -129,6 +130,10 @@ export default function Admin() {
           />
 
           {/* Quản lý lịch hen */}
+          <Route
+            path="/appointment/:id"
+            component={role === "ROLE_DOCTOR" ? Appointment : NoAccess}
+          />
           <Route
             path="/appointment"
             component={role === "ROLE_DOCTOR" ? AppointmentList : NoAccess}

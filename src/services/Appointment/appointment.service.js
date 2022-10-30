@@ -9,6 +9,16 @@ const appointmentByDoctorAndDay = async (doctorId, day) => {
     { headers: authHeader() }
   );
 };
+
+const getMedicalRecordDetails = async (id) => {
+  return await axios.get(
+    API_URL + "/details/" + id,
+    { id: id },
+    { headers: authHeader() }
+  );
+};
+
 export default {
   appointmentByDoctorAndDay,
+  getMedicalRecordDetails,
 };

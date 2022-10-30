@@ -220,6 +220,7 @@ export default function NewSchedule() {
             color={time.status === true ? "primary" : "default"}
             key={index}
             className="Time"
+            disabled={time.status === 3}
             onClick={(e) => handleTimeClick(time, index)}
           >
             {time.time}
