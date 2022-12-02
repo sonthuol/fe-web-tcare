@@ -17,12 +17,22 @@ export default function Sidebar(props) {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Bảng điều khiển</h3>
           <ul className="sidebarList">
-            <NavLink to="/" exact className="sidebarLink">
-              <li className="sidebarItem active">
-                <LineStyleIcon className="sidebarIcon" />
-              </li>
-              Trang chủ
-            </NavLink>
+            {props.role === "ROLE_DOCTOR" ? (
+              <NavLink to="/home/doctor" exact className="sidebarLink">
+                <li className="sidebarItem active">
+                  <LineStyleIcon className="sidebarIcon" />
+                </li>
+                Trang chủ
+              </NavLink>
+            ) : (
+              <NavLink to="/" exact className="sidebarLink">
+                <li className="sidebarItem active">
+                  <LineStyleIcon className="sidebarIcon" />
+                </li>
+                Trang chủ
+              </NavLink>
+            )}
+
             <li className="sidebarItem">
               <TimelineIcon className="sidebarIcon" /> Phân tích
             </li>
@@ -94,7 +104,7 @@ export default function Sidebar(props) {
           <></>
         )}
 
-        <div className="sidebarMenu">
+        {/* <div className="sidebarMenu">
           <h3 className="sidebarTitle">Notification</h3>
           <ul className="sidebarList">
             <li className="sidebarItem">
@@ -121,7 +131,7 @@ export default function Sidebar(props) {
               <ReportIcon className="sidebarIcon" /> Reposts
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

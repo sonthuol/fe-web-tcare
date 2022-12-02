@@ -6,6 +6,18 @@ const getAllDoctors = async () => {
   return await axios.get(API_URL, { headers: authHeader() });
 };
 
+const getAllPatientByDoctorId = async (doctorId) => {
+  return await axios.get(API_URL + "/getPatientByDoctorId/" + doctorId, {
+    headers: authHeader(),
+  });
+};
+
+const getFindDoctorByDoctorName = async (key) => {
+  return await axios.get("http://localhost:8080/api/public/doctors/" + key, {
+    headers: authHeader(),
+  });
+};
+
 const createNewDoctor = async (data) => {
   return await axios.post(API_URL, data, { headers: authHeader() });
 };
@@ -84,4 +96,6 @@ export default {
   deleteRestore,
   setCurrentClinic,
   getCurrentDoctor,
+  getAllPatientByDoctorId,
+  getFindDoctorByDoctorName,
 };

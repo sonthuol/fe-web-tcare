@@ -125,18 +125,26 @@ export default function DoctorList() {
   const handleOpenModelDelete = () => setOpenModelDelete(true);
   const handleCloseModelDelete = () => setOpenModelDelete(false);
   const [selectionModel, setSelectionModel] = useState();
+  const [key, setKey] = useState("");
+  const [clinicId, setClinicId] = useState();
 
-  useEffect(() => {
-    async function feachDoctor() {
-      let doctor = await doctorService.getAllDoctors();
+  useEffect(async () => {
+    async function fetchDoctor() {
       const clinic = await clinicService.getCurrentClinic();
-      doctor = doctor.data.data.filter(
+
+      const doctor =
+        key == ""
+          ? await doctorService.getAllDoctors()
+          : await doctorService.getFindDoctorByDoctorName(key);
+
+      console.log(clinic.id);
+      const doctorFilter = doctor.data.data.filter(
         (item) => item.clinics[0].id === clinic.id
       );
-      setDoctorList(doctor);
+      setDoctorList(doctorFilter);
     }
-    feachDoctor();
-  }, []);
+    fetchDoctor();
+  }, [key]);
 
   const handleOpenModal = (id) => {
     handleOpen();
@@ -203,7 +211,12 @@ export default function DoctorList() {
 
         <div className="clinicListSearch">
           <Paper className={classes.root}>
-            <InputBase className={classes.input} placeholder="Tìm kiếm" />
+            <InputBase
+              className={classes.input}
+              placeholder="Tìm kiếm"
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+            />
             <IconButton className={classes.iconButton} aria-label="search">
               <SearchIcon />
             </IconButton>

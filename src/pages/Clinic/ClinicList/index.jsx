@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ClinicList() {
+export default function ClinicList(props) {
   const classes = useStyles();
   const columns = [
     { field: "id", headerName: "Mã", width: 100 },
@@ -108,14 +108,20 @@ export default function ClinicList() {
   const handleOpenModelDelete = () => setOpenModelDelete(true);
   const handleCloseModelDelete = () => setOpenModelDelete(false);
   const [selectionModel, setSelectionModel] = useState();
+  const [key, setKey] = useState("");
 
   useEffect(() => {
     async function feachClinic() {
-      let clinic = await clinicService.getAllClinics();
-      setClinicList(clinic.data.data);
+      if (key != "") {
+        let clinic = await clinicService.getFindClinicByClinicName(key);
+        setClinicList(clinic.data.data);
+      } else {
+        let clinic = await clinicService.getAllClinics();
+        setClinicList(clinic.data.data);
+      }
     }
     feachClinic();
-  }, []);
+  }, [key]);
 
   const handleOpenModal = (id) => {
     handleOpen();
@@ -154,7 +160,6 @@ export default function ClinicList() {
     }
     handleCloseModelDelete();
   };
-
   return (
     <div className="clinicList">
       <div className="clinicListTitleContainer">
@@ -182,7 +187,12 @@ export default function ClinicList() {
 
         <div className="clinicListSearch">
           <Paper className={classes.root}>
-            <InputBase className={classes.input} placeholder="Tìm kiếm" />
+            <InputBase
+              className={classes.input}
+              placeholder="Tìm kiếm"
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+            />
             <IconButton className={classes.iconButton} aria-label="search">
               <SearchIcon />
             </IconButton>

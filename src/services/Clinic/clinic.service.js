@@ -6,6 +6,12 @@ const getAllClinics = async () => {
   return await axios.get(API_URL, { headers: authHeader() });
 };
 
+const getFindClinicByClinicName = async (key) => {
+  return await axios.get("http://localhost:8080/api/public/clinics/" + key, {
+    headers: authHeader(),
+  });
+};
+
 const clinicDetails = async (id) => {
   return await axios.get(API_URL + "/" + id, { headers: authHeader() });
 };
@@ -73,4 +79,5 @@ export default {
   restore,
   deleteRestore,
   getCurrentClinic,
+  getFindClinicByClinicName,
 };

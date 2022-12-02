@@ -21,17 +21,39 @@ import authService from "../../../services/Auth/auth.service";
 
 export default function Appointment() {
   const [medicalRecords, setMedicalRecords] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+  const [status, setStatus] = useState(0);
 
   let { id } = useParams();
   useEffect(() => {
-    async function feachMedicalRecords() {
+    async function fetchMedicalRecords() {
       let medicalRecord = await appointmentService.getMedicalRecordDetails(id);
       setMedicalRecords(medicalRecord.data.data);
+      setStatus(medicalRecord.data.data[0].status);
     }
-    feachMedicalRecords();
+    fetchMedicalRecords();
   }, []);
+
+  const handleUpdateAppointment = async (e) => {
+    e.preventDefault();
+    await appointmentService.updateStatusAppointment(id, status).then(
+      () => {
+        setRedirect(true);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
+  };
   return (
     <div className="clinic">
+      {redirect && <Redirect to="/appointment" />}
       <div className="clinicTitleContainer">
         <h1 className="clinicTitle">Chi tiết lịch khám</h1>
         <Link to="/appointment">
@@ -111,10 +133,11 @@ export default function Appointment() {
                 key={medicalRecord.id}
                 className="clinicUpdateForm"
                 encType="multipart/form-data"
+                onSubmit={handleUpdateAppointment}
               >
                 <div className="clinicUpdateLeft">
                   <div className="clinicUpdateItem">
-                    <label>Tên phòng khám</label>
+                    <label>Tên bệnh nhân</label>
                     <input
                       type="text"
                       disabled
@@ -146,31 +169,18 @@ export default function Appointment() {
                       className="clinicUpdateInput"
                     />
                   </div>
-                  <div className="clinicUpdateItem">
-                    <label>Trạng thái</label>
-                    <select
-                      className="clinicUpdateInput"
-                      defaultValue={medicalRecord.status}
-                      onChange={(e) =>
-                        setMedicalRecords({
-                          ...medicalRecords,
-                          status: e.target.value,
-                        })
-                      }
-                    >
-                      {medicalRecord.status === true ? (
-                        <>
-                          <option value="1">Hiển thị</option>
-                          <option value="0">Ẩn</option>
-                        </>
-                      ) : (
-                        <>
-                          <option value="0">Ẩn</option>
-                          <option value="1">Hiển thị</option>
-                        </>
-                      )}
-                    </select>
-                  </div>
+
+                  {medicalRecord.status == 0 ? (
+                    <button type="submit" className="medicalpdateButton">
+                      Đã xác nhận
+                    </button>
+                  ) : medicalRecord.status == 1 ? (
+                    <button type="submit" className="medicalpdateButton">
+                      Đã khám
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </form>
             );

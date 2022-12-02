@@ -6,6 +6,15 @@ const getAllSpecialties = async () => {
   return await axios.get(API_URL, { headers: authHeader() });
 };
 
+const getFindSpecialtyBySpecialtyName = async (key) => {
+  return await axios.get(
+    "http://localhost:8080/api/public/specialties/find/" + key,
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
 const specialtyDetails = async (id) => {
   return await axios.get(API_URL + "/" + id, { headers: authHeader() });
 };
@@ -66,4 +75,5 @@ export default {
   getAllSpecialtyRestore,
   restore,
   deleteRestore,
+  getFindSpecialtyBySpecialtyName,
 };

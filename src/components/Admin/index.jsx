@@ -23,6 +23,7 @@ import ScheduleList from "../../pages/Schedule/ScheduleList";
 import AppointmentList from "../../pages/Appointment/AppointmentList";
 import Appointment from "../../pages/Appointment/Appointment";
 import NewSchedule from "../../pages/Schedule/NewSchedule";
+import HomeDoctor from "../../pages/Doctor/HomeDoctor";
 import NoAccess from "../../pages/NoAccess";
 import { useEffect, useState } from "react";
 import authService from "../../services/Auth/auth.service";
@@ -44,7 +45,11 @@ export default function Admin() {
         <Sidebar role={role} />
         <Switch>
           {/* Tài khảo */}
-          <Route exact path="/" component={Home} />
+          <Route
+            exact
+            path="/"
+            component={role === "ROLE_DOCTOR" ? HomeDoctor : Home}
+          />
           <Route
             exact
             path="/accounts"
@@ -119,6 +124,11 @@ export default function Admin() {
           />
 
           {/* Quản lý lịch khám */}
+          <Route
+            path="/home/doctor"
+            component={role === "ROLE_DOCTOR" ? HomeDoctor : NoAccess}
+          />
+
           <Route
             path="/schedules/create"
             component={role === "ROLE_DOCTOR" ? NewSchedule : NoAccess}

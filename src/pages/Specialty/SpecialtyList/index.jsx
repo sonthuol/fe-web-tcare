@@ -107,18 +107,22 @@ export default function SpecialtyList() {
   const handleOpenModelDelete = () => setOpenModelDelete(true);
   const handleCloseModelDelete = () => setOpenModelDelete(false);
   const [selectionModel, setSelectionModel] = useState();
+  const [key, setKey] = useState("");
 
   useEffect(() => {
-    async function feachSpecialty() {
+    async function fetchSpecialty() {
       const clinic = await clinicService.getCurrentClinic();
-      let specialty = await specialtyService.getAllSpecialties();
+      let specialty =
+        key == ""
+          ? await specialtyService.getAllSpecialties()
+          : await specialtyService.getFindSpecialtyBySpecialtyName(key);
       specialty = specialty.data.data.filter(
         (item) => item.clinics[0].id === clinic.id
       );
       setSpecialtyList(specialty);
     }
-    feachSpecialty();
-  }, []);
+    fetchSpecialty();
+  }, [key]);
 
   const handleOpenModal = (id) => {
     handleOpen();
@@ -185,7 +189,12 @@ export default function SpecialtyList() {
 
         <div className="clinicListSearch">
           <Paper className={classes.root}>
-            <InputBase className={classes.input} placeholder="Tìm kiếm" />
+            <InputBase
+              className={classes.input}
+              placeholder="Tìm kiếm"
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+            />
             <IconButton className={classes.iconButton} aria-label="search">
               <SearchIcon />
             </IconButton>
