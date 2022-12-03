@@ -6,6 +6,36 @@ const getAllClinics = async () => {
   return await axios.get(API_URL, { headers: authHeader() });
 };
 
+const phanTichSoLuong = async () => {
+  return await axios.get(
+    "http://localhost:8080/api/phan-tich/phan-tich-so-luong-phongkham-bacsi-benhnhan",
+    { headers: authHeader() }
+  );
+};
+
+const phanTichPhongKhamSoLuong = async (id) => {
+  return await axios.get(
+    "http://localhost:8080/api/phan-tich-phong-kham/phan-tich-so-luong-phongkham-bacsi-benhnhan/" +
+      id,
+    { headers: authHeader() }
+  );
+};
+
+const phanTichSoLuongPhongKhamTheoThang = async () => {
+  return await axios.get(
+    "http://localhost:8080/api/phan-tich/phan-tich-so-luong-phongkham-theo-thang",
+    { headers: authHeader() }
+  );
+};
+
+const phanTichPhongKhamDoanhThuTheoThang = async (id) => {
+  return await axios.get(
+    "http://localhost:8080/api/phan-tich-phong-kham/phan-tich-so-luong-phongkham-theo-thang/" +
+      id,
+    { headers: authHeader() }
+  );
+};
+
 const getFindClinicByClinicName = async (key) => {
   return await axios.get("http://localhost:8080/api/public/clinics/" + key, {
     headers: authHeader(),
@@ -80,4 +110,8 @@ export default {
   deleteRestore,
   getCurrentClinic,
   getFindClinicByClinicName,
+  phanTichSoLuong,
+  phanTichSoLuongPhongKhamTheoThang,
+  phanTichPhongKhamSoLuong,
+  phanTichPhongKhamDoanhThuTheoThang,
 };

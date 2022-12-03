@@ -87,7 +87,7 @@ export default function ClinicList(props) {
         return (
           <>
             <Link to={"/clinics/" + params.row.id}>
-              <button className="clinicListEdit">Edit</button>
+              <button className="clinicListEdit">Chỉnh sửa</button>
             </Link>
             <DeleteOutlineIcon
               className="clinicListDelete"

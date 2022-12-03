@@ -86,7 +86,7 @@ export default function SpecialtyList() {
         return (
           <>
             <Link to={"/specialties/" + params.row.id}>
-              <button className="clinicListEdit">Edit</button>
+              <button className="clinicListEdit">Chỉnh sửa</button>
             </Link>
             <DeleteOutlineIcon
               className="clinicListDelete"

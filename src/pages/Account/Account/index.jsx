@@ -57,22 +57,18 @@ export default function Account() {
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <Avatar className="userShowImg"></Avatar>
+            {/* <Avatar className="userShowImg"></Avatar> */}
             <div className="userShowTopTitle">
               <span className="userShowUsername">{user.fullname}</span>
             </div>
           </div>
           <div className="userShowBottom">
-            <span className="userShowTitle">Chi tiết phòng khám</span>
+            <span className="userShowTitle">Họ và tên</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
               <span className="userShowInfoTitle">{user.fullname}</span>
             </div>
-            <div className="userShowInfo">
-              <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">10.12.1999</span>
-            </div>
-            <span className="userShowTitle">Contact Details</span>
+            <span className="userShowTitle">Thông tin liên lạc</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
               <span className="userShowInfoTitle">{user.phoneNumber}</span>
@@ -92,10 +88,10 @@ export default function Account() {
           <form className="userUpdateForm" onSubmit={handleUpdateUser}>
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
-                <label>Tên phòng khám</label>
+                <label>Họ và tên</label>
                 <input
                   type="text"
-                  placeholder="Tên phòng khám"
+                  placeholder="Họ và tên"
                   value={user.fullname || ""}
                   name="fullname"
                   className="userUpdateInput"
@@ -155,8 +151,11 @@ export default function Account() {
                   }
                 />
               </div>
+              <button type="submit" className="userUpdateButton">
+                Cập nhật
+              </button>
             </div>
-            <div className="userUpdateRight">
+            {/* <div className="userUpdateRight">
               <div className="userUpdateUpload">
                 <img
                   className="userUpdateImg"
@@ -168,10 +167,7 @@ export default function Account() {
                 </label>
                 <input type="file" id="file" style={{ display: "none" }} />
               </div>
-              <button type="submit" className="userUpdateButton">
-                Update
-              </button>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

@@ -136,8 +136,8 @@ export default function NewDoctor() {
         <div className="newUserItem">
           <label>Mật khẩu</label>
           <input
-            type="text"
-            placeholder="Nguyễn Văn A"
+            type="password"
+            placeholder="Mật khẩu"
             name="password"
             value={data.password}
             onChange={(e) => setData({ ...data, password: e.target.value })}

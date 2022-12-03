@@ -181,7 +181,7 @@ export default function NewClinic() {
           {file && <img src={URL.createObjectURL(file)} />}
         </div>
 
-        <div>
+        <div className="newUserItemFile">
           <label>Mô tả chi tiết</label>
           <CKEditor
             className="mt-3 wrap-ckeditor"

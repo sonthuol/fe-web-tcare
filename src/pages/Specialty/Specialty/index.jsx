@@ -58,14 +58,8 @@ export default function Specialty() {
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="userShowImg"
-            />
             <div className="userShowTopTitle">
               <span className="userShowUsername">{specialty.name}</span>
-              <span className="userShowUserTitle">Software Engineer</span>
             </div>
           </div>
           <div className="userShowBottom">
@@ -74,11 +68,6 @@ export default function Specialty() {
               <PermIdentity className="userShowIcon" />
               <span className="userShowInfoTitle">{specialty.name}</span>
             </div>
-            <div className="userShowInfo">
-              <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">10.12.1999</span>
-            </div>
-            <span className="userShowTitle">Contact Details</span>
           </div>
         </div>
         <div className="userUpdate">
@@ -141,19 +130,6 @@ export default function Specialty() {
                     })
                   }
                 />
-              </div>
-            </div>
-            <div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <img
-                  className="userUpdateImg"
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
-                />
-                <label htmlFor="file">
-                  <Publish className="userUpdateIcon" />
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
               </div>
               <button type="submit" className="userUpdateButton">
                 Cập nhật

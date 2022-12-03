@@ -82,7 +82,6 @@ export default function Clinic() {
             <img src={clinic.image} alt="" className="clinicShowImg" />
             <div className="clinicShowTopTitle">
               <span className="clinicShowUsername">{clinic.name}</span>
-              <span className="clinicShowUserTitle">Software Engineer</span>
             </div>
           </div>
           <div className="clinicShowBottom">
@@ -91,22 +90,14 @@ export default function Clinic() {
               <PermIdentity className="clinicShowIcon" />
               <span className="clinicShowInfoTitle">{clinic.name}</span>
             </div>
-            <div className="clinicShowInfo">
-              <CalendarToday className="clinicShowIcon" />
-              <span className="clinicShowInfoTitle">10.12.1999</span>
-            </div>
-            <span className="clinicShowTitle">Contact Details</span>
+            <span className="clinicShowTitle">Thônh tin liên lạc</span>
             <div className="clinicShowInfo">
               <PhoneAndroid className="clinicShowIcon" />
               <span className="clinicShowInfoTitle">{clinic.phoneNumber}</span>
             </div>
             <div className="clinicShowInfo">
-              <MailOutline className="clinicShowIcon" />
-              <span className="clinicShowInfoTitle">{clinic.address}</span>
-            </div>
-            <div className="clinicShowInfo">
               <LocationSearching className="clinicShowIcon" />
-              <span className="clinicShowInfoTitle">New York | USA</span>
+              <span className="clinicShowInfoTitle">{clinic.address}</span>
             </div>
           </div>
         </div>

@@ -1,39 +1,61 @@
-import React from "react";
 import "./style.css";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import clinicService from "../../../services/Clinic/clinic.service.js";
+import { React, useEffect, useState } from "react";
 export default function FeaturedInfor() {
+  const [phanTich, setPhanTich] = useState([]);
+  const [clinicId, setClinicId] = useState("");
+  useEffect(async () => {
+    async function fetchPhanTich() {
+      const id = await clinicService.getCurrentClinic();
+      if (id != null) {
+        setClinicId(id.id);
+        const clinic = await clinicService.phanTichPhongKhamSoLuong(id.id);
+        setPhanTich(clinic.data.data);
+      } else {
+        const clinic = await clinicService.phanTichSoLuong();
+        setPhanTich(clinic.data.data);
+      }
+    }
+    fetchPhanTich();
+  }, []);
   return (
     <div className="featured">
       <div className="featuredItem">
-        <span className="featuredTitle">Revanue</span>
+        <span className="featuredTitle">
+          {clinicId == "" ? "Phòng khám" : "Chuyên khoa"}
+        </span>
         <div className="featuredMoneyContainer">
-          <span className="featuredMoney">12.000.000đ</span>
-          <span className="featuredMoneyRate">
-            -11.4 <ArrowDownwardIcon className="featuredIcon negative" />
+          <span className="featuredMoney">
+            {clinicId == "" ? phanTich.clinic : phanTich.specialty}
           </span>
         </div>
-        <span className="featuredSub">Compared to last month</span>
+        <span className="featuredSub">
+          Tổng số {clinicId == "" ? "Phòng khám" : "Chuyên khoa"}
+        </span>
       </div>
       <div className="featuredItem">
-        <span className="featuredTitle">Sales</span>
+        <span className="featuredTitle">Bác sĩ</span>
         <div className="featuredMoneyContainer">
-          <span className="featuredMoney">12.000.000đ</span>
-          <span className="featuredMoneyRate">
-            -11.4 <ArrowDownwardIcon className="featuredIcon negative" />
+          <span className="featuredMoney">
+            {clinicId == "" ? phanTich.doctor : phanTich.doctor}
           </span>
         </div>
-        <span className="featuredSub">Compared to last month</span>
+        <span className="featuredSub">Tổng số Bác sĩ</span>
       </div>
       <div className="featuredItem">
-        <span className="featuredTitle">Cost</span>
+        <span className="featuredTitle">
+          {clinicId == "" ? "Bệnh nhân" : "Hồ sơ khám bệnh"}
+        </span>
         <div className="featuredMoneyContainer">
-          <span className="featuredMoney">12.000.000đ</span>
-          <span className="featuredMoneyRate">
-            +11.4 <ArrowUpwardIcon className="featuredIcon" />
+          <span className="featuredMoney">
+            {clinicId == "" ? phanTich.patient : phanTich.medicalRecords}
           </span>
         </div>
-        <span className="featuredSub">Compared to last month</span>
+        <span className="featuredSub">
+          Tổng số {clinicId == "" ? "Bệnh nhân" : "Hồ sơ khám bệnh"}
+        </span>
       </div>
     </div>
   );

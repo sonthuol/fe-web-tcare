@@ -143,10 +143,6 @@ export default function HomeDoctor({ grid }) {
                       {patient.phoneNumber}
                     </span>
                   </div>
-                  <button className="widgetSmButton">
-                    <VisibilityIcon className="widgetSmIcon" />
-                    Hiển thị
-                  </button>
                 </li>
               );
             })}
@@ -157,10 +153,10 @@ export default function HomeDoctor({ grid }) {
           <table className="widgetLgTable">
             <thead>
               <tr className="widgetLgTr">
-                <th className="widgetLgTd">Customer</th>
-                <th className="widgetLgTd">Date</th>
-                <th className="widgetLgTd">Amount</th>
-                <th className="widgetLgTd">Status</th>
+                <th className="widgetLgTd">Tên bệnh nhân</th>
+                <th className="widgetLgTd">Ngày đăng ký</th>
+                <th className="widgetLgTd">Chi phí khám bệnh</th>
+                <th className="widgetLgTd">Trạng thái</th>
               </tr>
             </thead>
 
@@ -169,11 +165,6 @@ export default function HomeDoctor({ grid }) {
                 return (
                   <tr className="widgetLgTr" key={appointment.id}>
                     <td className="widgetLgUser">
-                      {/* <img
-                        src="https://vnn-imgs-f.vgcloud.vn/2021/11/24/17/lisa-blackpink-nhiem-covid-19-1.jpg"
-                        alt=""
-                        className="widgetLgImg"
-                      /> */}
                       <span className="widgetLgName">{appointment.name}</span>
                     </td>
                     <td className="widgetLgDate">
@@ -184,7 +175,20 @@ export default function HomeDoctor({ grid }) {
                     </td>
                     <td className="widgetAmount">300.000đ</td>
                     <td className="widgetLgStatus">
-                      <Button type="Approved" name="Approved" />
+                      {(() => {
+                        if (
+                          appointment.status == false ||
+                          appointment.status == 0
+                        ) {
+                          return (
+                            <Button type="Declined" name="Đang chờ xác nhận" />
+                          );
+                        } else if (appointment.status == 1) {
+                          return <Button type="Pending" name="Đã xác nhận" />;
+                        } else {
+                          return <Button type="Approved" name="Đã khám" />;
+                        }
+                      })()}
                     </td>
                   </tr>
                 );

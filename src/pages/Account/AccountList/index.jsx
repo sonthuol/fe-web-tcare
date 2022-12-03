@@ -101,7 +101,7 @@ export default function AccountList() {
         return (
           <>
             <Link to={"/accounts/" + params.row.id}>
-              <button className="clinicListEdit">Edit</button>
+              <button className="clinicListEdit">Chỉnh sửa</button>
             </Link>
             <DeleteOutlineIcon
               className="clinicListDelete"
@@ -162,10 +162,10 @@ export default function AccountList() {
       <div className="clinicListSelectedDeleteAndSearch">
         <div className="clinicListDeleteAndRestore">
           <div className="clinicListSelectedRestore">
-            <Link to="/accounts/restore" className="clinicListLinkRestore">
+            {/* <Link to="/accounts/restore" className="clinicListLinkRestore">
               <RestoreIcon className="clinicListRestoreIcon" />
               <h5>Khôi phục</h5>
-            </Link>
+            </Link> */}
           </div>
         </div>
 

@@ -86,11 +86,6 @@ export default function Doctor() {
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
-            <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="userShowImg"
-            />
             <div className="userShowTopTitle">
               <span className="userShowUsername">{doctor.name}</span>
               <span className="userShowUserTitle">{clinic.name}</span>
@@ -110,7 +105,7 @@ export default function Doctor() {
               <CalendarToday className="userShowIcon" />
               <span className="userShowInfoTitle">{doctor.birthday}</span>
             </div>
-            <span className="userShowTitle">Contact Details</span>
+            <span className="userShowTitle">Thông tin liên lạc</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
               <span className="userShowInfoTitle">{doctor.phoneNumber}</span>
@@ -334,19 +329,6 @@ export default function Doctor() {
                     })
                   }
                 />
-              </div>
-            </div>
-            <div className="userUpdateRight">
-              <div className="userUpdateUpload">
-                <img
-                  className="userUpdateImg"
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
-                />
-                <label htmlFor="file">
-                  <Publish className="userUpdateIcon" />
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
               </div>
               <button type="submit" className="userUpdateButton">
                 Cập nhật
