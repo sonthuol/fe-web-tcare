@@ -12,6 +12,32 @@ const getAllPatientByDoctorId = async (doctorId) => {
   });
 };
 
+const displayTheNumberOfPatientsExaminedByWeek = async (doctorId) => {
+  return await axios.get(
+    API_URL + "/display-the-number-of-patients-examined-by-week/" + doctorId,
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
+const displayTheNumberOfPatientsExaminedByMonth = async (doctorId) => {
+  return await axios.get(
+    API_URL + "/display-the-number-of-patients-examined-by-month/" + doctorId,
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
+const displayTheNumberOfPatientsExaminedByYear = async (doctorId) => {
+  return await axios.get(
+    API_URL + "/display-the-number-of-patients-examined-by-year/" + doctorId,
+    {
+      headers: authHeader(),
+    }
+  );
+};
 const getFindDoctorByDoctorName = async (key) => {
   return await axios.get("http://localhost:8080/api/public/doctors/" + key, {
     headers: authHeader(),
@@ -98,4 +124,7 @@ export default {
   getCurrentDoctor,
   getAllPatientByDoctorId,
   getFindDoctorByDoctorName,
+  displayTheNumberOfPatientsExaminedByWeek,
+  displayTheNumberOfPatientsExaminedByMonth,
+  displayTheNumberOfPatientsExaminedByYear,
 };

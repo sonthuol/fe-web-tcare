@@ -18,14 +18,28 @@ import appointmentService from "../../../services/Appointment/appointment.servic
 export default function HomeDoctor({ grid }) {
   const [patientList, setPatientList] = useState([]);
   const [appointmentList, setAppointmentList] = useState([]);
+  const [analyticsByWeek, setAnalyticsByWeek] = useState({});
+  const [analyticsByMonth, setAnalyticsByMonth] = useState({});
+  const [analyticsByYear, setAnalyticsByYear] = useState({});
   useEffect(() => {
     async function fetchPatient() {
       const doctor = await doctorService.getCurrentDoctor();
+      const medicalRecordsAnalystByWeek =
+        await doctorService.displayTheNumberOfPatientsExaminedByWeek(doctor.id);
+      const medicalRecordsAnalystByMonth =
+        await doctorService.displayTheNumberOfPatientsExaminedByMonth(
+          doctor.id
+        );
+      const medicalRecordsAnalystByYear =
+        await doctorService.displayTheNumberOfPatientsExaminedByYear(doctor.id);
       const patients = await doctorService.getAllPatientByDoctorId(doctor.id);
       const appointments =
         await appointmentService.getAllMedicalRecordByDoctorId(doctor.id);
       setPatientList(patients.data.data);
       setAppointmentList(appointments.data.data);
+      setAnalyticsByWeek(medicalRecordsAnalystByWeek.data.data);
+      setAnalyticsByMonth(medicalRecordsAnalystByMonth.data.data);
+      setAnalyticsByYear(medicalRecordsAnalystByYear.data.data);
     }
     fetchPatient();
   }, []);
@@ -36,37 +50,70 @@ export default function HomeDoctor({ grid }) {
     <div className="home">
       <div className="featured">
         <div className="featuredItem">
-          <span className="featuredTitle">Revanue</span>
+          <span className="featuredTitle">Hồ sơ khám bệnh trong tuần</span>
           <div className="featuredMoneyContainer">
-            <span className="featuredMoney">12.000.000đ</span>
+            <span className="featuredMoney">
+              {analyticsByWeek.lastWeekCount}
+            </span>
             <span className="featuredMoneyRate">
-              -11.4 <ArrowDownwardIcon className="featuredIcon negative" />
+              {analyticsByWeek.summary}{" "}
+              {(() => {
+                if (analyticsByWeek.summary > 0) {
+                  return <ArrowUpwardIcon className="featuredIcon" />;
+                } else {
+                  return (
+                    <ArrowDownwardIcon className="featuredIcon negative" />
+                  );
+                }
+              })()}
             </span>
           </div>
-          <span className="featuredSub">Compared to last month</span>
+          <span className="featuredSub">So với tuần trước</span>
         </div>
         <div className="featuredItem">
-          <span className="featuredTitle">Sales</span>
+          <span className="featuredTitle">Hồ sơ khám bệnh trong tháng</span>
           <div className="featuredMoneyContainer">
-            <span className="featuredMoney">12.000.000đ</span>
+            <span className="featuredMoney">
+              {analyticsByMonth.lastMonthCount}
+            </span>
             <span className="featuredMoneyRate">
-              -11.4 <ArrowDownwardIcon className="featuredIcon negative" />
+              {analyticsByMonth.summary}{" "}
+              {(() => {
+                if (analyticsByMonth.summary > 0) {
+                  return <ArrowUpwardIcon className="featuredIcon" />;
+                } else {
+                  return (
+                    <ArrowDownwardIcon className="featuredIcon negative" />
+                  );
+                }
+              })()}
             </span>
           </div>
-          <span className="featuredSub">Compared to last month</span>
+          <span className="featuredSub">So với tháng trước</span>
         </div>
         <div className="featuredItem">
-          <span className="featuredTitle">Cost</span>
+          <span className="featuredTitle">Hồ sơ khám bệnh trong năm</span>
           <div className="featuredMoneyContainer">
-            <span className="featuredMoney">12.000.000đ</span>
+            <span className="featuredMoney">
+              {analyticsByYear.lastYearCount}
+            </span>
             <span className="featuredMoneyRate">
-              +11.4 <ArrowUpwardIcon className="featuredIcon" />
+              {analyticsByYear.summary}{" "}
+              {(() => {
+                if (analyticsByYear.summary > 0) {
+                  return <ArrowUpwardIcon className="featuredIcon" />;
+                } else {
+                  return (
+                    <ArrowDownwardIcon className="featuredIcon negative" />
+                  );
+                }
+              })()}
             </span>
           </div>
-          <span className="featuredSub">Compared to last month</span>
+          <span className="featuredSub">So với tuần năm</span>
         </div>
       </div>
-      <div className="chart">
+      {/* <div className="chart">
         <h4 className="chartTitle">Sales Analytics</h4>
         <ResponsiveContainer width="100%" aspect={4 / 1}>
           <LineChart data={userData}>
@@ -77,7 +124,7 @@ export default function HomeDoctor({ grid }) {
             <Legend />
           </LineChart>
         </ResponsiveContainer>
-      </div>
+      </div> */}
       <div className="homeWidget">
         <div className="widgetSm">
           <span className="widgetSmTitle">Danh sách bệnh nhân</span>
@@ -85,11 +132,11 @@ export default function HomeDoctor({ grid }) {
             {patientList.map((patient) => {
               return (
                 <li key={patient.id} className="widgetSmListItem">
-                  <img
+                  {/* <img
                     src="https://icdn.dantri.com.vn/thumb_w/660/2021/09/22/lisa-6-1632294023405.jpeg"
                     alt=""
                     className="widgetSmImg"
-                  />
+                  /> */}
                   <div className="widgetSmUser">
                     <span className="widgetSmUsername">{patient.name}</span>
                     <span className="widgetSmUserTitle">
@@ -120,16 +167,21 @@ export default function HomeDoctor({ grid }) {
             <tbody>
               {appointmentList.map((appointment) => {
                 return (
-                  <tr className="widgetLgTr">
+                  <tr className="widgetLgTr" key={appointment.id}>
                     <td className="widgetLgUser">
-                      <img
+                      {/* <img
                         src="https://vnn-imgs-f.vgcloud.vn/2021/11/24/17/lisa-blackpink-nhiem-covid-19-1.jpg"
                         alt=""
                         className="widgetLgImg"
-                      />
+                      /> */}
                       <span className="widgetLgName">{appointment.name}</span>
                     </td>
-                    <td className="widgetLgDate">{appointment.createdAt}</td>
+                    <td className="widgetLgDate">
+                      {(() => {
+                        var date = new Date(appointment.createdAt);
+                        return date.toISOString().split("T")[0];
+                      })()}
+                    </td>
                     <td className="widgetAmount">300.000đ</td>
                     <td className="widgetLgStatus">
                       <Button type="Approved" name="Approved" />

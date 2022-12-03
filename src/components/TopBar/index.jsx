@@ -20,17 +20,6 @@ export default function Topbar(props) {
         </div>
         <div className="topRight">
           <div className="topbarIconContainer">
-            <NotificationsNoneIcon />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <LanguageIcon />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <SettingsIcon />
-          </div>
-          <div className="topbarIconContainer">
             <Link to="/profile">
               {props.user.fullname === "root" ? "Root" : props.user.fullname}
             </Link>
@@ -43,9 +32,6 @@ export default function Topbar(props) {
             />
             <div className="myProfile">
               <ul>
-                <Link to="/profile">
-                  <li>Quản lý tài khoản</li>
-                </Link>
                 <Link to="" onClick={logOut}>
                   <li>Đăng xuất</li>
                 </Link>

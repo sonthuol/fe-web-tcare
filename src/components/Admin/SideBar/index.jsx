@@ -33,9 +33,9 @@ export default function Sidebar(props) {
               </NavLink>
             )}
 
-            <li className="sidebarItem">
+            {/* <li className="sidebarItem">
               <TimelineIcon className="sidebarIcon" /> Phân tích
-            </li>
+            </li> */}
           </ul>
         </div>
         {props.role === "ROLE_ROOT" ? (
