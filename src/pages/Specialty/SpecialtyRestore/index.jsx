@@ -156,7 +156,7 @@ export default function SpecialtyRestore() {
   return (
     <div className="clinicList">
       <div className="clinicListTitleContainer">
-        <h1 className="clinicListTitle">Khôi phục phòng khám</h1>
+        <h1 className="clinicListTitle">Khôi phục chuyên khoa</h1>
       </div>
       <div className="clinicListSelectedDeleteAndSearch">
         <div className="clinicListDeleteAndRestore">
@@ -240,7 +240,7 @@ export default function SpecialtyRestore() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn có chắc chắn muốn khôi phục phòng khám này ?
+            Bạn có chắc chắn muốn Khôi phục chuyên khoa này ?
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button
@@ -304,10 +304,10 @@ export default function SpecialtyRestore() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn muốn khôi phục phòng khám này ?
+            Bạn muốn Khôi phục chuyên khoa này ?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Việc khôi phục phòng khám sẽ đến phòng khám truy cập bình thường.
+            Việc Khôi phục chuyên khoa sẽ đến phòng khám truy cập bình thường.
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button

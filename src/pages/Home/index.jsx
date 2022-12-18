@@ -32,7 +32,7 @@ export default function Home() {
         data={phanTich}
         title={
           clinicId == ""
-            ? "Thống kế số phòng khám dăng ký"
+            ? "Thống kế số phòng khám đăng ký"
             : "Thống kế doanh thu"
         }
         dataKey={clinicId == "" ? "Số phòng khám" : "Doanh thu"}

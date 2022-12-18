@@ -264,7 +264,7 @@ export default function DoctorRestore() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn có chắc chắn muốn khôi phục phòng khám này ?
+            Bạn có chắc chắn muốn Khôi phục bác sĩ này ?
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button
@@ -328,10 +328,10 @@ export default function DoctorRestore() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bạn muốn khôi phục phòng khám này ?
+            Bạn muốn Khôi phục bác sĩ này ?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Việc khôi phục phòng khám sẽ đến phòng khám truy cập bình thường.
+            Việc Khôi phục bác sĩ sẽ đến phòng khám truy cập bình thường.
           </Typography>
           <div className="clinicListButtonConfirmDelete">
             <Button
